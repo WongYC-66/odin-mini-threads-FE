@@ -1,34 +1,25 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-
 import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function PostSkeleton() {
 
-    const [username, setUsername] = useState('')
+    const randomWidth1 = (150 + Math.ceil(Math.random() * 250))
+    const randomWidth2 = (150 + Math.ceil(Math.random() * 250))
 
-    useEffect(() => {
-        const { username, id, token } = JSON.parse(localStorage.getItem('user')) || {}
-        if (username) {
-            setUsername(username)
-        }
-
-    }, [])
+    console.log({randomWidth1,randomWidth2})
 
     return (
-        <div className='flex p-6 justify-between items-center border-solid border-b-2'>
-            {/* User Icon and What's new */}
-            <div className='flex items-center'>
-                <Link href={`/@${username}`}>
-                    <Image alt='user2.png' src='/user2.png' width={50} height={50} />
-                </Link>
-                <div className='ms-3 text-slate-400'>{`What's new`}</div>
+        <div className='flex p-6 justify-between border-solid border-b-2'>
+            <div className='flex items-start'>
+                <Skeleton className="h-10 w-10 rounded-full" />
             </div>
-
-            <Button className='float-end'>Post</Button>
+            <div className='h-[90px] w-full ms-3 flex flex-col justify-between'>
+                <Skeleton className="h-4 w-[125px]" />
+                <Skeleton className="h-4" style={{ width: `${randomWidth1}px` }}/>
+                <Skeleton className="h-4" style={{ width: `${randomWidth2}px` }}/>
+            </div>
         </div>
     );
 }

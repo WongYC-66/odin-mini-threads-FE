@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
 
 import Image from "next/image"
 
-import Card from "../ui/search/card.jsx"
+import Card from "../ui/search/card.jsx";
 import API_URL from '../lib/apiUrl.js'
+import CardSkeleton from '../ui/search/card-skeleton.jsx';
 
 export default function SearchPage() {
 
@@ -14,6 +15,7 @@ export default function SearchPage() {
     const [filteredProfiles, setFilteredProfiles] = useState([])
     const [allProfiles, setAllProfiles] = useState([])
     const [myFollowings, setMyFollowings] = useState(new Set())
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         // fetch all Profiles
@@ -37,6 +39,7 @@ export default function SearchPage() {
             // passed
             setAllProfiles(profiles)
             setMyFollowings(new Set(myFollowings))
+            setIsLoading(false)
         }
 
         fetchProfiles()
@@ -96,7 +99,8 @@ export default function SearchPage() {
                 </div>
 
                 {/* User Card */}
-                {filteredProfiles.map(profile => <Card key={profile.id} profile={profile} />)}
+                {isLoading && Array(10).fill().map((_, i) => <CardSkeleton key={`${i}-dummy`} />)}
+                {!isLoading && filteredProfiles.map(profile => <Card key={profile.id} profile={profile} />)}
 
             </div>
 

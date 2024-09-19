@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -8,18 +8,15 @@ import { Button } from "@/components/ui/button"
 
 import API_URL from '../../lib/apiUrl.js'
 
-
 export default function SearchCard(props) {
 
     const { firstName, lastName, user, isFollowing } = props.profile
 
     const [followed, setFollowed] = useState(isFollowing)
 
-    console.log(props.profile)
 
     const handleButtonClick = (toFollow) => {
         // toFollow = Boolean
-        console.log(user.id)
 
         const sendRequest = async () => {
             const { token } = JSON.parse(localStorage.getItem('user'))
