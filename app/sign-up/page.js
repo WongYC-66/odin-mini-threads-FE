@@ -29,7 +29,7 @@ export default function SignUpPage() {
             body: JSON.stringify(objectData),
         });
 
-        let { id, token, error } = await response.json()
+        let { id, token, username, error } = await response.json()
 
         // if error show error message
         if (error || !id || !token) {
@@ -43,7 +43,8 @@ export default function SignUpPage() {
         // passed
         localStorage.setItem("user", JSON.stringify({
             id,
-            token
+            username,
+            token,
         }))
 
         router.push('/');
