@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 
 import NavBarLeft from "./ui/layout/navBar-left";
 import NavBarTop from "./ui/layout/navBar-top-mobile";
+import NavBarBottom from "./ui/layout/navBar-bottom-mobile";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -77,6 +78,12 @@ export default function RootLayout({ children, title }) {
               <li className="hover:cursor-pointer list-none mx-1">Report a problem </li>
             </footer>
           </div>
+        </div>
+
+        {/* Bottom Bar Section - 5 buttons(in mobile view)*/}
+        <div className="md:hidden">
+          {username &&
+            <NavBarBottom username={username} />}
         </div>
 
       </body>

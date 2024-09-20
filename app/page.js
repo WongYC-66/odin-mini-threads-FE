@@ -12,7 +12,6 @@ export default function Home() {
   const [fetchCount, setFetchCount] = useState(1)
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const containerRef = useRef(null);
 
   useEffect(() => {
 
@@ -53,8 +52,8 @@ export default function Home() {
     <div className="h-full">
       <h2 className="hidden md:block text-center font-black">Home</h2>
 
-      {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0" ref={containerRef}> */}
-      <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0" ref={containerRef}>
+      {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
+      <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
 
         <AddPostSkeleton/>
 
