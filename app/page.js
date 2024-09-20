@@ -26,7 +26,7 @@ export default function Home() {
         },
       });
 
-      let { posts, error } = await response.json()
+      let { posts, postLiked, error } = await response.json()
 
       // if error show error message
       if (error) {
@@ -34,19 +34,19 @@ export default function Home() {
         return
       }
       // passed
+      postLiked = new Set(postLiked)
+      console.log(postLiked)
+      posts = posts.map(post => {
+        post.isLiked = postLiked.has(post.id)
+        return post
+      })
       setPosts(prev => [...prev, ...posts])
-    }
-
-    const updateContainer = async () => {
-      const posts = await getPosts()
-      console.log(posts)
-      // todo here:
-      // await(new Promise((res) => setTimeout(() => res(), 200000)))
       setIsLoading(false)
     }
 
-    updateContainer()
-
+    getPosts()
+    // await(new Promise((res) => setTimeout(() => res(), 200000)))
+    
   }, [fetchCount])
 
   return (

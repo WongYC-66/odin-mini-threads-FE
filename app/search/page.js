@@ -14,7 +14,6 @@ export default function SearchPage() {
     const [query, setQuery] = useState('')
     const [filteredProfiles, setFilteredProfiles] = useState([])
     const [allProfiles, setAllProfiles] = useState([])
-    const [myFollowings, setMyFollowings] = useState(new Set())
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -38,9 +37,14 @@ export default function SearchPage() {
             }
             // passed
             // await (new Promise((res) => setTimeout(() => res(), 5000)))
+            myFollowings = new Set(myFollowings)
+
+            profiles = profiles.map(profile => {
+                profile.isFollowing = myFollowings.has(profile.user.username)       // add attribute isFollowing 
+                return profile
+            })
 
             setAllProfiles(profiles)
-            setMyFollowings(new Set(myFollowings))
             setIsLoading(false)
         }
 
@@ -59,13 +63,10 @@ export default function SearchPage() {
                     lastName.toLowerCase().includes(q) ||
                     user.username.toLowerCase().includes(q)
             })
-            .map(profile => {
-                profile.isFollowing = myFollowings.has(profile.user.username)       // add attribute isFollowing 
-                return profile
-            })
+            
 
         setFilteredProfiles(filtered)
-    }, [query, allProfiles, myFollowings])
+    }, [query, allProfiles])
 
     const handleInputChange = (e) => {
         setQuery(e.target.value)
@@ -77,7 +78,6 @@ export default function SearchPage() {
     }
 
     // console.log(filterProfiles)
-    // console.log({ myFollowings })
 
     return (
         <div className="h-full">
