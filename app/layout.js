@@ -57,7 +57,7 @@ export default function RootLayout({ children, title }) {
           <div className="flex flex-col grow items-center">
 
             {/* Render children Page */}
-            <main className="flex flex-col align-middle grow w-full">
+            <main className="grow flex flex-col items-center w-full">
               {children}
             </main>
 

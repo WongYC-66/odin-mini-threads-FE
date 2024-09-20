@@ -6,7 +6,7 @@ export default function NavBarLeft(props) {
     const username = props.username
 
     return (
-        <nav className="fixed min-h-screen flex flex-col justify-between px-2 py-4 me-16">
+        <nav className="hidden md:flex flex-col justify-between fixed min-h-screen px-2 py-4 me-16">
             <div className='flex justify-center'>
                 {/* LogoIcon */}
                 <Link href='/'>
