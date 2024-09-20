@@ -1,5 +1,9 @@
+'use client'
+
 import Image from 'next/image';
 import Link from 'next/link';
+
+import DialogDemo from './create-post.jsx'
 
 export default function NavBarLeft(props) {
 
@@ -60,6 +64,8 @@ export default function NavBarLeft(props) {
                     <Image alt="settings.png" src="/settings.png" width={40} height={40} />
                 </div>
             </div>
+
+            <DialogDemo/>
         </nav>
     );
 }

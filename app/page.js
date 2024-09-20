@@ -51,10 +51,12 @@ export default function Home() {
 
   return (
     <div className="h-full">
-      <h2 className="text-center font-black">Home</h2>
+      <h2 className="hidden md:block text-center font-black">Home</h2>
 
-      <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0" ref={containerRef}>
-        <AddPostSkeleton />
+      {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0" ref={containerRef}> */}
+      <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0" ref={containerRef}>
+
+        <AddPostSkeleton/>
 
         {isLoading && Array(10).fill().map((_, i) => <PostSkeleton key={`${i}-dummy-post`} />)}
         {!isLoading && posts.map((post, i) => 

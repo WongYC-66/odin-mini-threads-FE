@@ -19,7 +19,7 @@ export default function AddPostSkeleton() {
     }, [])
 
     return (
-        <div className='flex p-6 justify-between items-center border-solid border-b-2'>
+        <div className='hidden md:flex p-6 justify-between items-center border-solid border-b-2'>
             {/* User Icon and What's new */}
             <div className='flex items-center'>
                 <Link href={`/@${username}`}>
