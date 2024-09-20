@@ -48,7 +48,7 @@ export default function RootLayout({ children, title }) {
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 
-        <div className="flex h-screen bg-slate-50">
+        <div className="flex min-h-screen bg-slate-50">
 
           {/* Left Section - Nav Bar */}
           {username && <NavBarLeft username={username} />}

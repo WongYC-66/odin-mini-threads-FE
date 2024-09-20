@@ -1,8 +1,10 @@
 'use client'
 
-import Image from 'next/image';
+import {useState, useEffect} from 'react';
 
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 export default function CardSkeleton() {
 
@@ -10,19 +12,18 @@ export default function CardSkeleton() {
         <div className='flex p-4 items-center justify-between'>
             <div className='flex items-center'>
                 {/* Image */}
-                <Image alt='user2.png' src='/user2.png' width={50} height={50} />
+                <Skeleton className="h-10 w-10 rounded-full" />
 
                 {/* Names & username, follower count  */}
                 <div className=''>
-                    <div className='ms-3 font-bold'>...loading </div>
-                    <div className='ms-3 text-slate-400'>  </div>
-                    <div className='ms-3 text-slate-400'>  </div>
+                    <Skeleton className="ms-3 my-1 h-4 w-[75px]"/>
+                    <Skeleton className="ms-3 my-1 h-4 w-[175px]"/>
+                    <Skeleton className="ms-3 my-1 h-4 w-[125px]"/>
                 </div>
             </div>
 
             {/* Follow button */}
-            <Button className="font-bold w-28" onClick={() => handleButtonClick(true)}> Follow </Button>
-
+            <Skeleton className="h-8 w-28" />
         </div >
     );
 }

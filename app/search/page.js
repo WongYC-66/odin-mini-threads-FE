@@ -37,6 +37,8 @@ export default function SearchPage() {
                 return
             }
             // passed
+            // await (new Promise((res) => setTimeout(() => res(), 5000)))
+
             setAllProfiles(profiles)
             setMyFollowings(new Set(myFollowings))
             setIsLoading(false)

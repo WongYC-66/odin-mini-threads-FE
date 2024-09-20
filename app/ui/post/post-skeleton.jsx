@@ -1,14 +1,17 @@
 'use client'
-
-import Image from 'next/image';
+import { useState, useEffect } from 'react'
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function PostSkeleton() {
 
-    const randomWidth1 = (150 + Math.ceil(Math.random() * 250))
-    const randomWidth2 = (150 + Math.ceil(Math.random() * 250))
+    const [randomWidth1, setRandomWidth1] = useState(0);
+    const [randomWidth2, setRandomWidth2] = useState(0);
 
-    console.log({randomWidth1,randomWidth2})
+    useEffect(() => {
+        // Generate random widths after the component has mounted (on the client side)
+        setRandomWidth1(150 + Math.ceil(Math.random() * 250));
+        setRandomWidth2(150 + Math.ceil(Math.random() * 250));
+    }, []);
 
     return (
         <div className='flex p-6 justify-between border-solid border-b-2'>
@@ -17,8 +20,8 @@ export default function PostSkeleton() {
             </div>
             <div className='h-[90px] w-full ms-3 flex flex-col justify-between'>
                 <Skeleton className="h-4 w-[125px]" />
-                <Skeleton className="h-4" style={{ width: `${randomWidth1}px` }}/>
-                <Skeleton className="h-4" style={{ width: `${randomWidth2}px` }}/>
+                <Skeleton className="h-4" style={{ width: `${randomWidth1}px` }} />
+                <Skeleton className="h-4" style={{ width: `${randomWidth2}px` }} />
             </div>
         </div>
     );
