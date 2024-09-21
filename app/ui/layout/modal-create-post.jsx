@@ -21,23 +21,25 @@ export default function ModalNewPost(props) {
 
   const open = props.open
   const setOpen = props.setOpen
+  const setIsLoading = props.setIsLoading
+
+  // const [username, setUsername] = useState('')
+  // const [token, setToken] = useState('')
 
   const [username, setUsername] = useState('')
-  const [token, setToken] = useState('')
+  const [photoURL, setPhotoURL] = useState('/user2.png')
 
   useEffect(() => {
-    const { username, token } = JSON.parse(localStorage.getItem('user'))
+    const { username, photoURL } = JSON.parse(localStorage.getItem('user'))
     setUsername(username)
-    setToken(token)
-    // todo, fetch profile URL and update photoURL
+    setPhotoURL(photoURL || '/user2.png')
   }, [])
-
-  const photoURL = "/user2.png"
 
   const handleNewPostSubmit = async (e) => {
     e.preventDefault()
 
     const sendRequest = async () => {
+      const { token } = JSON.parse(localStorage.getItem('user'))
 
       const formData = new FormData(e.target);
       const objectData = Object.fromEntries(formData.entries());
@@ -60,7 +62,10 @@ export default function ModalNewPost(props) {
         return
       }
       // passed
-      // window.location.reload() // full refresh
+      if (setIsLoading)
+        setIsLoading(true) // partially refresh by fetch at root url if triggers from home screen
+      else
+        window.location.reload() // full refresh if triggers from nav bar (left/bottom)
     }
 
     sendRequest()

@@ -70,9 +70,13 @@ export default function Home() {
       {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
       <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
 
-        <AddPostSkeleton />
+        {/* Add Post Modal Window */}
+        <AddPostSkeleton setIsLoading={setIsLoading}/>
 
+        {/* Fake skeleton post */}
         {isLoading && Array(10).fill().map((_, i) => <PostSkeleton key={`${i}-dummy-post`} />)}
+        
+        {/* Real post */}
         {!isLoading && posts.map((post, i) =>
           <Post key={i} post={post} setIsLoading={setIsLoading}/>
         )}

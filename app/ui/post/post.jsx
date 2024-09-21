@@ -65,7 +65,8 @@ export default function Post(props) {
         }
     }
 
-    const handleCommentIconClick = () => {
+    const handleCommentIconClick = (e) => {
+        e.stopPropagation();  // Prevent the click event from propagating
         setOpen(prev => !prev)
     }
 

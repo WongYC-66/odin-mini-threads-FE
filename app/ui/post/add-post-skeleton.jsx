@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import ModalNewPost from '../layout/modal-create-post.jsx'
 
-export default function AddPostSkeleton() {
+export default function AddPostSkeleton(props) {
 
     const [username, setUsername] = useState('')
     const [openModal, setOpenModal] = useState(false)
@@ -38,7 +38,7 @@ export default function AddPostSkeleton() {
             <Button className='float-end' onClick={handleAddNew}>Post</Button>
 
             {/* Modal upon clicking new post */}
-            <ModalNewPost open={openModal} setOpen={setOpenModal} />
+            <ModalNewPost open={openModal} setOpen={setOpenModal} setIsLoading={props.setIsLoading}/>
         </div>
     );
 }

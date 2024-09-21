@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 
-import API_URL from '../../lib/apiUrl.js'
+import API_URL from '@/app/lib/apiUrl.js'
 
 export default function ModalNewComment(props) {
 
@@ -26,22 +26,19 @@ export default function ModalNewComment(props) {
   const setIsLoading = props.setIsLoading
 
   const [username, setUsername] = useState('')
-  const [token, setToken] = useState('')
+  const [photoURL, setPhotoURL] = useState('/user2.png')
 
   useEffect(() => {
-    const { username, token } = JSON.parse(localStorage.getItem('user'))
+    const { username, photoURL } = JSON.parse(localStorage.getItem('user'))
     setUsername(username)
-    setToken(token)
-    // todo, fetch profile URL and update photoURL
+    setPhotoURL(photoURL || '/user2.png')
   }, [])
-
-  const photoURL = "/user2.png"
 
   const handleNewCommentSubmit = async (e) => {
     e.preventDefault()
 
     const sendRequest = async () => {
-
+      const { token } = JSON.parse(localStorage.getItem('user'))
       const formData = new FormData(e.target);
       const objectData = Object.fromEntries(formData.entries());
       objectData.postId = postId
