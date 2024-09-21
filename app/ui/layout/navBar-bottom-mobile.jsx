@@ -1,10 +1,19 @@
 'use client'
-
+import { useState } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 
+import ModalNewPost from './modal-create-post.jsx'
+
 export default function NavBarBottom(props) {
+
+    const [openModal, setOpenModal] = useState(false)
+
     const username = props.username
+
+    const handleAddNew = () => {
+        setOpenModal(prev => !prev)
+    }
 
     return (
         <div className="fixed bottom-0 flex gap-6 justify-center w-screen bg-white py-4 z-10">
@@ -22,8 +31,7 @@ export default function NavBarBottom(props) {
             </div>
 
 
-            {/* add overlay to add new post */}
-            <div className='bg-slate-200 px-4 py-3 rounded-2xl hover:bg-slate-300 hover:cursor-pointer'>
+            <div className='bg-slate-200 px-4 py-3 rounded-2xl hover:bg-slate-300 hover:cursor-pointer' onClick={handleAddNew}>
                 <Image alt="plus.png" src="/plus.png" width={40} height={40} />
             </div>
 
@@ -40,6 +48,9 @@ export default function NavBarBottom(props) {
                     <Image alt="user.png" src="/user.png" width={40} height={40} />
                 </Link>
             </div>
+
+            {/* Modal upon clicking new post */}
+            <ModalNewPost open={openModal} setOpen={setOpenModal}/>
         </div>
     );
 }

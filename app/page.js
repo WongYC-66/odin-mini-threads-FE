@@ -45,8 +45,10 @@ export default function Home() {
 
     getPosts()
     // await(new Promise((res) => setTimeout(() => res(), 200000)))
-    
+
   }, [fetchCount])
+
+
 
   return (
     <div className="h-full">
@@ -55,11 +57,11 @@ export default function Home() {
       {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
       <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
 
-        <AddPostSkeleton/>
+        <AddPostSkeleton />
 
         {isLoading && Array(10).fill().map((_, i) => <PostSkeleton key={`${i}-dummy-post`} />)}
-        {!isLoading && posts.map((post, i) => 
-          <Post key={i} post={post}/>
+        {!isLoading && posts.map((post, i) =>
+          <Post key={i} post={post} />
         )}
       </div>
 

@@ -64,6 +64,9 @@ export default function RootLayout({ children, title }) {
           {/* Middle Section - Main */}
           <div className="flex flex-col grow items-center">
 
+            {/* Dummy-Gap Mobile-view */}
+            <div className="md:hidden py-10"></div>
+
             {/* Render children Page */}
             <main className="grow flex flex-col items-center w-full">
               {children}
