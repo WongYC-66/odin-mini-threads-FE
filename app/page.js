@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-import PostSkeleton from "./ui/post/post-skeleton.jsx";
 import Post from "./ui/post/post.jsx";
+import PostSkeleton from "./ui/post/post-skeleton.jsx";
 import API_URL from './lib/apiUrl.js'
 import AddPostSkeleton from './ui/post/add-post-skeleton.jsx';
 
@@ -35,11 +35,24 @@ export default function Home() {
       // passed
       postLiked = new Set(postLiked)
       console.log(postLiked)
-      posts = posts.map(post => {
+      const fetchedPosts = posts.map(post => {
         post.isLiked = postLiked.has(post.id)
         return post
       })
-      setPosts(prev => [...prev, ...posts])
+
+      // remove duplicatePosts , // for Dev mode
+      let combinedPosts = [...posts, ...fetchedPosts]
+      let duplicate = new Set()
+      combinedPosts = combinedPosts.filter(post => {
+        if(!duplicate.has(post.id)){
+          duplicate.add(post.id)
+          return true
+        }
+        return false
+      })
+
+
+      setPosts(combinedPosts)
       setIsLoading(false)
     }
 
@@ -48,11 +61,11 @@ export default function Home() {
 
   }, [fetchCount])
 
-
+  console.log(posts)
 
   return (
     <div className="h-full">
-      <h2 className="hidden md:block text-center font-black">Home</h2>
+      <h2 className="hidden md:block text-center font-black my-4">Home</h2>
 
       {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
       <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">

@@ -10,7 +10,7 @@ import API_URL from "../../lib/apiUrl.js"
 export default function Post(props) {
 
     const { id: postId, author, content, _count, timestamp, isLiked } = props.post
-    console.log(props.post)
+    // console.log(props.post)
 
     const [liked, setLiked] = useState(isLiked)
     const [likedCount, setLikedCount] = useState(_count.likedBy)

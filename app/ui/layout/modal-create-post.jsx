@@ -1,4 +1,9 @@
+'use client'
+
+import { useState, useEffect } from "react"
+import { useRouter } from 'next/navigation';
 import Image from "next/image"
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -15,10 +20,20 @@ import API_URL from '../../lib/apiUrl.js'
 
 export default function ModalNewPost(props) {
 
+  const router = useRouter();
+
   const open = props.open
   const setOpen = props.setOpen
 
-  const { username, token } = JSON.parse(localStorage.getItem('user'))
+  const [username, setUsername] = useState('')
+  const [token, setToken] = useState('')
+
+  useEffect(() => {
+    const { username, token } = JSON.parse(localStorage.getItem('user'))
+    setUsername(username)
+    setToken(token)
+    // todo, fetch profile URL and update photoURL
+  }, [])
 
   const photoURL = "/user2.png"
 
@@ -48,7 +63,7 @@ export default function ModalNewPost(props) {
         return
       }
       // passed
-      // todo- refresh the page
+      window.location.reload() // full refresh
     }
 
     sendRequest()

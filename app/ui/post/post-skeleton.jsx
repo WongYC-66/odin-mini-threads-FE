@@ -4,8 +4,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function PostSkeleton() {
 
-    const [randomWidth1, setRandomWidth1] = useState(0);
-    const [randomWidth2, setRandomWidth2] = useState(0);
+    const [randomWidth1, setRandomWidth1] = useState(450);
+    const [randomWidth2, setRandomWidth2] = useState(250);
 
     useEffect(() => {
         // Generate random widths after the component has mounted (on the client side)
