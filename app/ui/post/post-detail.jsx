@@ -63,7 +63,7 @@ export default function PostDetail(props) {
     console.log(comments)
 
     return (
-        <div>
+        <div className=''>
             <div className='flex flex-col p-6 justify-between border-solid border-b-2'>
                 <div className='flex items-center gap-2'>
                     {/* Post author Photo */}

@@ -46,7 +46,7 @@ export default function PostPage(props) {
             <h2 className="hidden md:block text-center font-black my-4">Thread</h2>
 
             {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
-            <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
+            <div id="container" className="container mx-auto w-screen md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
 
                 {isLoading && <PostDetailSkeleton />}
                 {!isLoading && <PostDetail post={post} setIsLoading={setIsLoading}/>}
