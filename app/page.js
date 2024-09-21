@@ -59,7 +59,7 @@ export default function Home() {
     getPosts()
     // await(new Promise((res) => setTimeout(() => res(), 200000)))
 
-  }, [fetchCount])
+  }, [fetchCount, isLoading])
 
   console.log(posts)
 
@@ -74,7 +74,7 @@ export default function Home() {
 
         {isLoading && Array(10).fill().map((_, i) => <PostSkeleton key={`${i}-dummy-post`} />)}
         {!isLoading && posts.map((post, i) =>
-          <Post key={i} post={post} />
+          <Post key={i} post={post} setIsLoading={setIsLoading}/>
         )}
       </div>
 

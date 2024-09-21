@@ -17,10 +17,13 @@ import { Textarea } from "@/components/ui/textarea"
 
 import API_URL from '../../lib/apiUrl.js'
 
-export default function ModalNewPost(props) {
+export default function ModalNewComment(props) {
 
   const open = props.open
   const setOpen = props.setOpen
+  const postId = props.postId
+  const postAuthorName = props.postAuthorName
+  const setIsLoading = props.setIsLoading
 
   const [username, setUsername] = useState('')
   const [token, setToken] = useState('')
@@ -34,15 +37,16 @@ export default function ModalNewPost(props) {
 
   const photoURL = "/user2.png"
 
-  const handleNewPostSubmit = async (e) => {
+  const handleNewCommentSubmit = async (e) => {
     e.preventDefault()
 
     const sendRequest = async () => {
 
       const formData = new FormData(e.target);
       const objectData = Object.fromEntries(formData.entries());
+      objectData.postId = postId
 
-      const response = await fetch(`${API_URL}/posts/`, {
+      const response = await fetch(`${API_URL}/comments/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,14 +63,14 @@ export default function ModalNewPost(props) {
         alert("Ooops, something went wrong, try again")
         return
       }
-      // passed
-      // window.location.reload() // full refresh
+      // passed, do something..
+      setIsLoading(true)
     }
 
     sendRequest()
 
     setOpen(false)
-    console.log("submitted!")
+    console.log("commented!!")
   }
 
   return (
@@ -78,7 +82,7 @@ export default function ModalNewPost(props) {
       <DialogContent className="sm:max-w-[425px] bg-white">
 
         <DialogHeader>
-          <DialogTitle className='text-center'>New Thread</DialogTitle>
+          <DialogTitle className='text-center'>Reply</DialogTitle>
           <DialogDescription>
             {/* {`Make changes to your profile here. Click save when you're done.`} */}
           </DialogDescription>
@@ -98,15 +102,15 @@ export default function ModalNewPost(props) {
             </div>
 
             {/* post's content */}
-            <form id="newPost" onSubmit={handleNewPostSubmit}>
-              <Textarea placeholder="Type your message here." id="postContent" name="content" required />
+            <form id="newComment" onSubmit={handleNewCommentSubmit}>
+              <Textarea placeholder={`Reply to ${postAuthorName}`} id="postContent" name="content" required />
             </form>
 
           </div>
         </div>
 
         <DialogFooter>
-          <Button type="submit" form="newPost">Post</Button>
+          <Button type="submit" form="newComment">Post</Button>
         </DialogFooter>
 
       </DialogContent>

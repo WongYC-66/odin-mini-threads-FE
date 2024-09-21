@@ -1,21 +1,22 @@
 'use client'
+import { useState, useEffect } from 'react'
+import moment from 'moment'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import moment from 'moment';
+import Link from 'next/link'
+import Image from 'next/image'
 
-import API_URL from "../../lib/apiUrl.js"
-import ModalNewComment from './modal-create-comment.jsx';
+import Comment from './comment.jsx'
+import API_URL from '@/app/lib/apiUrl.js'
+import ModalNewComment from './modal-create-comment.jsx'
 
-export default function Post(props) {
-    const router = useRouter()
-    const { id: postId, author, content, _count, timestamp, isLiked } = props.post
-    // console.log(props.post)
+export default function PostDetail(props) {
+
+    console.log(props.post)
+    const { author, id: postId, comments: allComments, content, _count, timestamp, isLiked } = props.post
 
     const [liked, setLiked] = useState(isLiked)
     const [likedCount, setLikedCount] = useState(_count.likedBy)
+    const [comments, setComments] = useState(allComments)
     const [open, setOpen] = useState(false)         // comment modal
 
     const photoURL = author?.userProfile.photoURL || "/user2.png"
@@ -55,47 +56,37 @@ export default function Post(props) {
         setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
     }
 
-    const routingClick = (e) => {
-        // Prevent redirection if the click originated from the like button or user icon
-        if (e.target.closest('.no-route')) {
-            e.stopPropagation(); // Stop the event from bubbling up
-        } else {
-            // Handle routing logic
-            router.push(`/@${author.username}/post/${postId}`)
-        }
-    }
-
     const handleCommentIconClick = () => {
         setOpen(prev => !prev)
     }
 
+    console.log(comments)
+
     return (
-        <div className='flex p-6 justify-between border-solid border-b-2 hover:cursor-pointer z-5' onClick={routingClick}>
-            {/* User Photo */}
-            <div className='relative flex items-start h-min-0'>
-                <Link href={`/@${author.username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} className='no-route' />
-                </Link>
+        <div>
+            <div className='flex flex-col p-6 justify-between border-solid border-b-2'>
+                <div className='flex items-center gap-2'>
+                    {/* Post author Photo */}
+                    <Link href={`/@${author.username}`}>
+                        <Image alt='photo' src={photoURL} width={50} height={50} className='no-route' />
+                    </Link>
 
-                {/* <Image alt='photo' src='/add-circle.png' width={20} height={20}
-                    className='absolute top-6 right-0 hover:scale-110 duration-150 ease-in-out '/>
-                    */}
-            </div>
+                    {/* Post author username */}
+                    <div className='min-h-4 no-route'>
+                        <span className=' font-bold hover:underline'>
+                            <Link href={`/@${author.username}`}>{author.username}</Link>
+                        </span>
+                        <span className='ms-4 font-light text-slate-400'>{relativeTime}</span>
+                    </div>
 
-            <div className='w-full ms-3 flex flex-col justify-between'>
-
-                {/* author username */}
-                <div className='min-h-4 no-route'>
-                    <span className=' font-bold hover:underline'>
-                        <Link href={`/@${author.username}`}>{author.username}</Link>
-                    </span>
-                    <span className='ms-4 font-light text-slate-400'>{relativeTime}</span>
                 </div>
 
-                {/* post's content */}
-                <div className='min-h-4'>{content}</div>
+                {/* Post's content */}
+                <div className='h-[90px] w-full flex flex-col justify-between my-4'>
+                    <div className='min-h-4'>{content}</div>
+                </div>
 
-                <div className='min-h-4 flex'>
+                <div className='min-h-4 flex mt-4'>
                     {/* Like Icon and count */}
                     <div className='flex justify-center items-center p-3 rounded-3xl hover:bg-slate-100 hover:border-spacing-3 no-route' onClick={handleLikeClick}>
 
@@ -109,17 +100,20 @@ export default function Post(props) {
                     </div>
 
                     {/* Comment Icon and count */}
-                    <div className='flex justify-center items-center p-3 rounded-3xl hover:bg-slate-100 hover:border-spacing-3 mx-4 no-route' onClick={handleCommentIconClick}>
+                    <div className='flex justify-center items-center p-3 rounded-3xl hover:bg-slate-100 hover:border-spacing-3 mx-4' onClick={handleCommentIconClick}>
                         <Image alt='chatIcon' src="/chat.png" width={24} height={24}></Image>
                         <p className='ms-2'>{_count.comments}</p>
                     </div>
                 </div>
-
-
             </div>
 
+
+            {/* Comments */}
+            {comments && comments.map(comment => <Comment key={comment.id} comment={comment} setComments={setComments} />)}
+
             {/* New Comment Modal Window */}
-            <ModalNewComment open={open} setOpen={setOpen} postAuthorName={author.username} postId={postId} setIsLoading={props.setIsLoading} />
+            <ModalNewComment open={open} setOpen={setOpen} postAuthorName={author.username} postId={postId} setIsLoading={props.setIsLoading}/>
+
         </div>
     );
 }

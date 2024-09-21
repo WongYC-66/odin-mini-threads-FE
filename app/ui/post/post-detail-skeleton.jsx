@@ -5,7 +5,7 @@ import PostSkeleton from './post-skeleton.jsx'
 
 export default function PostDetailSkeleton() {
 
-    const randomCommentCount = Math.ceil(Math.random() * 5)
+    const commentSkeletonCount = 4
 
     const [randomWidth1, setRandomWidth1] = useState(350);
     const [randomWidth2, setRandomWidth2] = useState(250);
@@ -19,7 +19,8 @@ export default function PostDetailSkeleton() {
     }, []);
 
     return (
-        <div>
+        <div className='flex flex-col'>
+            {/* post skeleton */}
             <div className='flex flex-col p-6 justify-between border-solid border-b-2'>
                 <div className='flex items-center gap-2 mb-4'>
                     <Skeleton className="h-10 w-10 rounded-full" />
@@ -32,8 +33,10 @@ export default function PostDetailSkeleton() {
                 </div>
             </div>
 
-            {Array(randomCommentCount).fill().map((_, i) => <PostSkeleton key={i}/>)}
-
+            {/* comments skeleton */}
+            <div>
+                {Array(commentSkeletonCount).fill().map((_, i) => <PostSkeleton key={`${i}+dummy-comment`} />)}
+            </div>
 
         </div>
     );
