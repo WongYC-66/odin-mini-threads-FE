@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import moment from 'moment';
@@ -8,7 +9,7 @@ import moment from 'moment';
 import API_URL from "../../lib/apiUrl.js"
 
 export default function Post(props) {
-
+    const router = useRouter()
     const { id: postId, author, content, _count, timestamp, isLiked } = props.post
     // console.log(props.post)
 
@@ -52,13 +53,22 @@ export default function Post(props) {
         setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
     }
 
+    const routingClick = (e) => {
+        // Prevent redirection if the click originated from the like button or user icon
+        if (e.target.closest('.no-route')) {
+            e.stopPropagation(); // Stop the event from bubbling up
+        } else {
+            // Handle routing logic
+            router.push(`/@${author.username}/post/${postId}`)
+        }
+    }
 
     return (
-        <div className='flex p-6 justify-between border-solid border-b-2 hover:cursor-pointer'>
+        <div className='flex p-6 justify-between border-solid border-b-2 hover:cursor-pointer z-5' onClick={routingClick}>
             {/* User Photo */}
             <div className='relative flex items-start h-min-0'>
                 <Link href={`/@${author.username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} />
+                    <Image alt='photo' src={photoURL} width={50} height={50} className='no-route'/>
                 </Link>
 
                 {/* <Image alt='photo' src='/add-circle.png' width={20} height={20}
@@ -69,8 +79,10 @@ export default function Post(props) {
             <div className='w-full ms-3 flex flex-col justify-between'>
 
                 {/* author username */}
-                <div className='min-h-4'>
-                    <span className=' font-bold hover:underline'>{author.username}</span>
+                <div className='min-h-4 no-route'>
+                    <span className=' font-bold hover:underline'>
+                        <Link href={`/@${author.username}`}>{author.username}</Link>
+                    </span>
                     <span className='ms-4 font-light text-slate-400'>{relativeTime}</span>
                 </div>
 
@@ -79,14 +91,14 @@ export default function Post(props) {
 
                 <div className='min-h-4 flex'>
                     {/* Like Icon and count */}
-                    <div className='flex justify-center items-center p-3 rounded-3xl hover:bg-slate-100 hover:border-spacing-3' onClick={handleLikeClick}>
+                    <div className='flex justify-center items-center p-3 rounded-3xl hover:bg-slate-100 hover:border-spacing-3 no-route' onClick={handleLikeClick}>
 
                         {/* liked, show red heart */}
                         {liked && <Image alt='likeIcon' src='/red-heart.png' width={36} height={36}></Image>}
 
                         {/* not liked, show outlined heart */}
                         {!liked && <Image alt='likeIcon' src='/heart-lite.png' width={24} height={24}></Image>}
-                        
+
                         <p className='ms-2'>{likedCount}</p>
                     </div>
 
