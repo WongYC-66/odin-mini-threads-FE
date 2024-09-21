@@ -29,7 +29,7 @@ export default function SignUpPage() {
             body: JSON.stringify(objectData),
         });
 
-        let { id, token, username, error } = await response.json()
+        let { id, token, username, photoURL, error } = await response.json()
 
         // if error show error message
         if (error || !id || !token) {
@@ -45,6 +45,7 @@ export default function SignUpPage() {
             id,
             username,
             token,
+            photoURL
         }))
 
         router.push('/');

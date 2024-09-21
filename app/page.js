@@ -9,7 +9,7 @@ import AddPostSkeleton from './ui/post/add-post-skeleton.jsx';
 
 export default function Home() {
 
-  const [fetchCount, setFetchCount] = useState(1)
+  const [fetchCount, setFetchCount] = useState(1) // todo - infinite scroll, fetching
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
