@@ -77,7 +77,7 @@ export default function Thread(props) {
                     <Image alt='photo' src={photoURL} width={50} height={50} className='no-route' />
                 </Link>
                 {/* slim rectangular bar */}
-                <div class="bg-gray-200 w-1 h-full my-2"></div>
+                <div className="bg-gray-200 w-1 h-full my-2"></div>
             </div>
 
             <div className='w-full ms-3 flex flex-col justify-between'>

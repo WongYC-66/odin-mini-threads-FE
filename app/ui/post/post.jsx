@@ -75,7 +75,7 @@ export default function Post(props) {
             {/* User Photo */}
             <div className='relative flex items-start h-min-0'>
                 <Link href={`/@${author.username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} className='no-route' />
+                    <Image alt='photo' src={photoURL} width={50} height={50} className='rounded-full no-route' />
                 </Link>
 
                 {/* <Image alt='photo' src='/add-circle.png' width={20} height={20}

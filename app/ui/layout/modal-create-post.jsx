@@ -23,9 +23,6 @@ export default function ModalNewPost(props) {
   const setOpen = props.setOpen
   const setIsLoading = props.setIsLoading
 
-  // const [username, setUsername] = useState('')
-  // const [token, setToken] = useState('')
-
   const [username, setUsername] = useState('')
   const [photoURL, setPhotoURL] = useState('/user2.png')
 

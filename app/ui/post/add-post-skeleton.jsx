@@ -11,14 +11,13 @@ import ModalNewPost from '../layout/modal-create-post.jsx'
 export default function AddPostSkeleton(props) {
 
     const [username, setUsername] = useState('')
+    const [photoURL, setPhotoURL] = useState('/user2.png')
     const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
-        const { username } = JSON.parse(localStorage.getItem('user')) || {}
-        if (username) {
-            setUsername(username)
-        }
-
+        const { username, photoURL } = JSON.parse(localStorage.getItem('user')) || {}
+        setUsername(username)
+        setPhotoURL(photoURL)
     }, [])
 
     const handleAddNew = () => {
@@ -30,7 +29,7 @@ export default function AddPostSkeleton(props) {
             {/* User Icon and What's new */}
             <div className='grow flex items-center'>
                 <Link href={`/@${username}`}>
-                    <Image alt='user2.png' src='/user2.png' width={50} height={50} />
+                    <Image alt='photo' src={photoURL} width={50} height={50} />
                 </Link>
                 <div className='ms-3 text-slate-400 w-full' onClick={handleAddNew}>{`What's new`}</div>
             </div>
@@ -38,7 +37,7 @@ export default function AddPostSkeleton(props) {
             <Button className='float-end' onClick={handleAddNew}>Post</Button>
 
             {/* Modal upon clicking new post */}
-            <ModalNewPost open={openModal} setOpen={setOpenModal} setIsLoading={props.setIsLoading}/>
+            <ModalNewPost open={openModal} setOpen={setOpenModal} setIsLoading={props.setIsLoading} />
         </div>
     );
 }

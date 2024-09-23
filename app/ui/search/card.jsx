@@ -10,7 +10,7 @@ import API_URL from '../../lib/apiUrl.js'
 
 export default function SearchCard(props) {
 
-    const { firstName, lastName, user, isFollowing } = props.profile
+    const { firstName, lastName, photoURL, user, isFollowing } = props.profile
 
     const [followed, setFollowed] = useState(isFollowing)
 
@@ -55,7 +55,7 @@ export default function SearchCard(props) {
             <div className='flex items-center'>
                 {/* Image */}
                 <Link href={`/@${user.username}`}>
-                    <Image alt='user2.png' src='/user2.png' width={50} height={50} />
+                    <Image alt='photo' src={photoURL} className='rounded-full' width={50} height={50} />
                 </Link>
 
                 {/* Names & username, follower count  */}

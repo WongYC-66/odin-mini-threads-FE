@@ -64,10 +64,10 @@ export default function ModalUpdateProfile(props) {
           <div className="flex">
             <div>
               {/* firstName */}
-              <h4 className="font-bold">First Name</h4>
+              <h4 className="font-bold my-2">First Name</h4>
               <Input placeholder="..." name="firstName" defaultValue={profile.userProfile.firstName} required />
               {/* lastName */}
-              <h4 className="font-bold">Last Name</h4>
+              <h4 className="font-bold my-2">Last Name</h4>
               <Input placeholder="..." name="lastName" defaultValue={profile.userProfile.lastName} required />
             </div>
 
@@ -78,11 +78,11 @@ export default function ModalUpdateProfile(props) {
           </div>
 
           {/* bio */}
-          <h4 className="font-bold">Bio</h4>
+          <h4 className="font-bold my-2">Bio</h4>
           <Textarea placeholder="your description ... " name="bio" defaultValue={profile.userProfile.bio} required />
 
           {/* photoUrl */}
-          <h4 className="font-bold">{`Photo URL [optional]`} </h4>
+          <h4 className="font-bold my-2">{`Photo URL [optional]`} </h4>
           <Input placeholder="..." name="photoURL" defaultValue={profile.userProfile.photoURL} required />
 
         </form>

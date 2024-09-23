@@ -61,7 +61,8 @@ export default function ModalNewComment(props) {
         return
       }
       // passed, do something..
-      setIsLoading(true)
+      if (setIsLoading)
+        setIsLoading(true)
     }
 
     sendRequest()
