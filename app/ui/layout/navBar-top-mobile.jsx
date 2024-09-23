@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import SettingMenuBar from './setting-menubar';
+
 export default function NavBarTop(props) {
 
     const router = useRouter();
@@ -26,7 +28,9 @@ export default function NavBarTop(props) {
             {/* </div> */}
 
             <div className='px-4 py-2 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-                <Image alt="settings.png" src="/settings.png" width={40} height={40} />
+
+                {/* <Image alt="settings.png" src="/settings.png" width={40} height={40} /> */}
+                <SettingMenuBar />
             </div>
 
         </div>

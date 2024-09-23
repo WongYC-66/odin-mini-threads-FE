@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import ModalNewPost from './modal-create-post.jsx'
+import SettingMenuBar from './setting-menubar.jsx'
 
 export default function NavBarLeft(props) {
 
@@ -68,7 +69,8 @@ export default function NavBarLeft(props) {
                     <Image alt="thumbtack.png" src="/thumbtack.png" width={40} height={40} />
                 </div>
                 <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-                    <Image alt="settings.png" src="/settings.png" width={40} height={40} />
+                    {/* <Image alt="settings.png" src="/settings.png" width={40} height={40} /> */}
+                    <SettingMenuBar />
                 </div>
             </div>
 

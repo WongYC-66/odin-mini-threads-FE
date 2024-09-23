@@ -29,7 +29,7 @@ export default function AddPostSkeleton(props) {
             {/* User Icon and What's new */}
             <div className='grow flex items-center'>
                 <Link href={`/@${username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} />
+                    <Image alt='photo' src={photoURL} width={50} height={50} className='rounded-full'/>
                 </Link>
                 <div className='ms-3 text-slate-400 w-full' onClick={handleAddNew}>{`What's new`}</div>
             </div>

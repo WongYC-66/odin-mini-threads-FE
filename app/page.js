@@ -52,20 +52,18 @@ export default function Home() {
         return false
       })
 
-
       setPosts(combinedPosts)
       setIsLoading(false)
     }
 
     getPosts()
-    // await(new Promise((res) => setTimeout(() => res(), 200000)))
 
   }, [fetchCount, isLoading])
 
   console.log(posts)
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       <h2 className="hidden md:block text-center font-black my-4">Home</h2>
 
       {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}

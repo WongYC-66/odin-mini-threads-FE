@@ -61,7 +61,7 @@ export default function SearchCard(props) {
                 {/* Names & username, follower count  */}
                 <Link href={`/@${user.username}`} className='hover:cursor-pointer'>
                     <div className='ms-3 font-bold hover:underline'>{user.username}</div>
-                    <div className='ms-3 text-slate-400'>{`${firstName} ${lastName}`} </div>
+                    <div className='ms-3 text-slate-400'>{`${firstName || ''} ${lastName || ''}`} </div>
                     <div className='ms-3 text-slate-700'>{`${user._count.followedBy} followers`} </div>
                 </Link>
             </div>

@@ -14,7 +14,7 @@ export default function ProfileDetail(props) {
     // 3. create Self-page edit logic
     const profile = props.profile
 
-    const fullname = profile.userProfile.firstName + " " + profile.userProfile.lastName
+    const fullname = `${profile.userProfile.firstName || ''} ${profile.userProfile.lastName || ''}`
 
     const [followed, setFollowed] = useState(profile.is_followed)
     const [isSelf, setIsSelf] = useState(false)
