@@ -1,8 +1,5 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Tabs,
     TabsContent,
@@ -10,13 +7,15 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 
+import Post from "../post/post"
+import ReplyWithThread from "./thread-reply"
 
 export default function ProfileTabs(props) {
 
     const { threads, replies } = props.profile
 
-    console.log(threads)
-    // console.log(replies)
+    console.log("threads", threads)
+    console.log("replies", replies)
 
     return (
         <Tabs defaultValue="threads" className="h-full">
@@ -27,9 +26,11 @@ export default function ProfileTabs(props) {
             </TabsList>
 
             <TabsContent value="threads">
+                {threads.map(thread => <Post key={thread.id} post={thread} />)}
             </TabsContent>
 
             <TabsContent value="replies">
+                {replies.map(reply => <ReplyWithThread key={reply.id} reply={reply} />)}
             </TabsContent>
 
             <TabsContent value="reposts">

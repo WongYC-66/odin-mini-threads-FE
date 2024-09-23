@@ -60,7 +60,7 @@ export default function ProfilePage() {
         router.back()
     }
 
-    console.log(profile)
+    // console.log(profile)
 
 
     return (

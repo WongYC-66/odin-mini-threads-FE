@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
 
@@ -94,7 +94,7 @@ export default function ProfileDetail(props) {
             </div>
 
             {/* Tabs Section */}
-            <div className='grow py-4 px-6 w-full'>
+            <div className='grow py-4 w-full'>
                 <ProfileTabs profile={profile} />
             </div>
 
