@@ -11,7 +11,6 @@ import ModalNewComment from './modal-create-comment.jsx'
 
 export default function PostDetail(props) {
 
-    console.log(props.post)
     const { author, id: postId, comments: allComments, content, _count, timestamp, isLiked } = props.post
 
     const [liked, setLiked] = useState(isLiked)
@@ -59,8 +58,6 @@ export default function PostDetail(props) {
     const handleCommentIconClick = () => {
         setOpen(prev => !prev)
     }
-
-    console.log(comments)
 
     return (
         <div className=''>

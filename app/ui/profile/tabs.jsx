@@ -14,9 +14,6 @@ export default function ProfileTabs(props) {
 
     const { threads, replies } = props.profile
 
-    console.log("threads", threads)
-    console.log("replies", replies)
-
     return (
         <Tabs defaultValue="threads" className="h-full">
             <TabsList className="grid w-full grid-cols-3">

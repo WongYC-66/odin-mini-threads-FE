@@ -6,15 +6,12 @@ import Link from 'next/link';
 import moment from 'moment';
 
 export default function Comment(props) {
-    console.log(props.comment)
 
     const { id: commentId, author, content, timestamp } = props.comment
     const setComments = props.setComments
 
     const photoURL = author?.userProfile.photoURL || "/user2.png"
     const relativeTime = moment(timestamp).fromNow();
-
-    
 
     return (
         <div className='flex p-6 justify-between border-solid border-b-2 hover:cursor-pointer'>

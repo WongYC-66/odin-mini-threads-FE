@@ -22,8 +22,9 @@ export default function ProfilePage() {
     useEffect(() => {
 
         const sendRequest = async () => {
-
-            const { token } = JSON.parse(localStorage.getItem('user'))
+            const data = JSON.parse(localStorage.getItem('user'))
+            if(!data) return
+            const { token } = data
 
             const response = await fetch(`${API_URL}/profiles/${username}`, {
                 method: 'GET',

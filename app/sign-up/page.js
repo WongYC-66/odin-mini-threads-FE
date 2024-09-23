@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 import Image from 'next/image';
@@ -9,12 +9,21 @@ import { Button } from "@/components/ui/button"
 
 import styles from '../sign-in/signIn.module.css';
 import API_URL from '../lib/apiUrl.js'
+import { guestLogin } from '@/app/lib/guest.js'
+
 
 export default function SignUpPage() {
 
     const router = useRouter();
 
     const [errorMsg, setErrorMsg] = useState('')
+
+    useEffect(() => {
+        // Check if user has login in / registed before, if so, goto home
+        const data = localStorage.getItem('user')
+        if(!data) return
+        router.push('/');
+    }, [router])
 
     const handleSignUp = async (e) => {
         e.preventDefault()
@@ -77,6 +86,10 @@ export default function SignUpPage() {
                     <p className='ms-3'>Github Login </p>
                 </Button>
             </a>
+
+            <Button type="button" className="w-[200px]" onClick={guestLogin}>
+                Guest Login
+            </Button>
 
             <br />
             <h5 className='text-red-600'> {errorMsg} </h5>

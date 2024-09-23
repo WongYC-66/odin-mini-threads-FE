@@ -35,7 +35,6 @@ export default function Home() {
       }
       // passed
       postLiked = new Set(postLiked)
-      console.log(postLiked)
       const fetchedPosts = posts.map(post => {
         post.isLiked = postLiked.has(post.id)
         return post
@@ -60,8 +59,6 @@ export default function Home() {
 
   }, [fetchCount, isLoading])
 
-  console.log(posts)
-
   return (
     <div className="h-full w-full">
       <h2 className="hidden md:block text-center font-black my-4">Home</h2>
@@ -79,6 +76,7 @@ export default function Home() {
         {!isLoading && posts.map((post, i) =>
           <Post key={i} post={post} setIsLoading={setIsLoading}/>
         )}
+        {!isLoading && posts.length === 0 && <p className='p-6'> oops, there is no recent post. Try follow someone or write ur new post</p>}
       </div>
 
     </div>

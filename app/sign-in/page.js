@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 
 import styles from './signIn.module.css';
 import API_URL from '../lib/apiUrl.js'
+import { guestLogin } from '@/app/lib/guest.js'
 
 export default function SignInPage() {
 
@@ -65,6 +66,13 @@ export default function SignInPage() {
         }
     }, [router]);
 
+    useEffect(() => {
+        // Check if user has login in / registed before, if so, goto home
+        const data = localStorage.getItem('user')
+        if(!data) return
+        router.push('/');
+    }, [router])
+
     return (
         <div className={`flex flex-col justify-center items-center h-full w-full ${styles.background}`}>
             <h2 className="text-center font-black">Log In</h2>
@@ -89,6 +97,10 @@ export default function SignInPage() {
                     <p className='ms-3'>Github Login </p>
                 </Button>
             </a>
+
+            <Button type="button" className="w-[200px]" onClick={guestLogin}>
+                Guest Login
+            </Button>
 
             <br />
             <h5 className='text-red-600'> {errorMsg} </h5>

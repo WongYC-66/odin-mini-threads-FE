@@ -38,7 +38,8 @@ export default function ModalNewComment(props) {
     e.preventDefault()
 
     const sendRequest = async () => {
-      const { token } = JSON.parse(localStorage.getItem('user'))
+      const data = JSON.parse(localStorage.getItem('user'))
+      const { token } = data
       const formData = new FormData(e.target);
       const objectData = Object.fromEntries(formData.entries());
       objectData.postId = postId
