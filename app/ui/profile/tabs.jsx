@@ -34,7 +34,7 @@ export default function ProfileTabs(props) {
             </TabsContent>
 
             <TabsContent value="reposts">
-                <p>no reposts yet</p>
+                <p className="text-center">repost feature not supported yet</p>
             </TabsContent>
         </Tabs>
     );

@@ -53,7 +53,7 @@ export default function ProfilePage() {
         }
 
         sendRequest()
-    }, [username])
+    }, [username, isLoading])
 
 
     const handleGoBackClick = () => {

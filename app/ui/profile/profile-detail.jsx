@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
 
 import API_URL from '@/app/lib/apiUrl';
 import ProfileTabs from './tabs';
+import ModalUpdateProfile from './modal-update-profile.jsx';
 
 export default function ProfileDetail(props) {
 
@@ -16,6 +17,15 @@ export default function ProfileDetail(props) {
     const fullname = profile.userProfile.firstName + " " + profile.userProfile.lastName
 
     const [followed, setFollowed] = useState(profile.is_followed)
+    const [isSelf, setIsSelf] = useState(false)
+    const [open, setOpen] = useState(false)         // update profile modal
+
+    useEffect(() => {
+        const { id } = JSON.parse(localStorage.getItem('user'))
+        if (id == profile.id)
+            setIsSelf(true)
+
+    }, [profile.id])
 
     const toInstagram = () => {
         alert('to instagram ...')
@@ -23,6 +33,10 @@ export default function ProfileDetail(props) {
 
     const moreInfoClick = () => {
         alert('under development ...')
+    }
+
+    const handleEditProfileClick = () => {
+        setOpen(true)
     }
 
     const handleFollowBtnClick = () => {
@@ -87,10 +101,14 @@ export default function ProfileDetail(props) {
                 </div>
             </div>
 
-            {/* Follow & Mention Buttons */}
+            {/* Follow & Mention Buttons / edit profile */}
             <div className='flex justify-center gap-6 py-4 px-6 w-full'>
-                <Button className='w-1/2' onClick={handleFollowBtnClick}> {followed ? 'Following' : 'Follow'} </Button>
-                <Button className='w-1/2'> Mention </Button>
+                {isSelf
+                    ? <Button className='w-full' onClick={handleEditProfileClick}> Edit Profile </Button>
+                    : <>
+                        <Button className='w-1/2' onClick={handleFollowBtnClick}> {followed ? 'Following' : 'Follow'} </Button>
+                        <Button className='w-1/2'> Mention </Button>
+                    </>}
             </div>
 
             {/* Tabs Section */}
@@ -98,7 +116,7 @@ export default function ProfileDetail(props) {
                 <ProfileTabs profile={profile} />
             </div>
 
-
+            <ModalUpdateProfile profile={profile} open={open} setOpen={setOpen} setIsLoading={props.setIsLoading}/>
         </div >
     );
 }
