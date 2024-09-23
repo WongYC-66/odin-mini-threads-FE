@@ -33,7 +33,7 @@ export default function ProfilePage() {
                 },
             });
 
-            let { profile, error } = await response.json()
+            let { profile, postLiked, error } = await response.json()
 
             // if error show error message
             if (error) {
@@ -41,7 +41,12 @@ export default function ProfilePage() {
                 alert("Ooops, something went wrong, try again")
                 return
             }
+
             // passed
+            postLiked = new Set(postLiked)
+            profile.threads.forEach(t => t.isLiked = postLiked.has(t.id))
+            profile.replies.forEach(({Post}) => Post.isLiked = postLiked.has(Post.id))
+
             setProfile(profile)
             setIsLoading(false) // partially refresh by fetch at root url if triggers from home screen
 
