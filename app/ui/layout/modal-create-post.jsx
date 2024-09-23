@@ -27,7 +27,9 @@ export default function ModalNewPost(props) {
   const [photoURL, setPhotoURL] = useState('/user2.png')
 
   useEffect(() => {
-    const { username, photoURL } = JSON.parse(localStorage.getItem('user'))
+    const data = JSON.parse(localStorage.getItem('user'))
+    if(!data) return
+    const { username, photoURL } = data
     setUsername(username)
     setPhotoURL(photoURL || '/user2.png')
   }, [])

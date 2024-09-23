@@ -14,8 +14,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-
-    const { token } = JSON.parse(localStorage.getItem('user'))
+    const data = JSON.parse(localStorage.getItem('user'))
+    if(!data) return 
+    const { token } = data
 
     const getPosts = async () => {
       const response = await fetch(`${API_URL}/posts/`, {

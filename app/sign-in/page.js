@@ -1,7 +1,8 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
+import Image from 'next/image';
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -50,14 +51,27 @@ export default function SignInPage() {
         router.push('/');
     }
 
+    useEffect(() => {
+        // Check if there is a token in the URL (from GitHub redirect)
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const id = urlParams.get('id');
+        const username = urlParams.get('username');
+        const photoURL = urlParams.get('photoURL');
+
+        if (token && id) {
+            localStorage.setItem("user", JSON.stringify({ id, username, token, photoURL }));
+            router.push('/');
+        }
+    }, [router]);
 
     return (
         <div className={`flex flex-col justify-center items-center h-full w-full ${styles.background}`}>
             <h2 className="text-center font-black">Log In</h2>
 
             <form onSubmit={handleSignIn}>
-                <Input type="text" placeholder="your username" name="username" required/>
-                <Input type="password" placeholder="" name="password" className="my-4" required/>
+                <Input type="text" placeholder="your username" name="username" required />
+                <Input type="password" placeholder="" name="password" className="my-4" required />
 
                 <Button type="submit" className="px-24">Log In</Button>
 
@@ -66,8 +80,15 @@ export default function SignInPage() {
             <p className="py-4">or</p>
 
             <Link href='/sign-up'>
-                <Button type="button" className="px-20">Sign Up here</Button>
+                <Button type="button" className="w-[200px]">Sign Up here</Button>
             </Link>
+
+            <a href={`${API_URL}/users/auth/github`}>
+                <Button type="button" className="my-4 w-[200px] bg-white text-black">
+                    <Image alt='github-logo' src='/github.png' width={24} height={24} />
+                    <p className='ms-3'>Github Login </p>
+                </Button>
+            </a>
 
             <br />
             <h5 className='text-red-600'> {errorMsg} </h5>

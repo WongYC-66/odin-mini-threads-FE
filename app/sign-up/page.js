@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
+import Image from 'next/image';
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -67,8 +68,15 @@ export default function SignUpPage() {
             <p className="py-4">or</p>
 
             <Link href='/sign-in'>
-                <Button type="button" className="px-20">Sign in here</Button>
+                <Button type="button" className="w-[200px]">Sign in here</Button>
             </Link>
+
+            <a href={`${API_URL}/users/auth/github`}>
+                <Button type="button" className="my-4 w-[200px] bg-white text-black">
+                    <Image alt='github-logo' src='/github.png' width={24} height={24} />
+                    <p className='ms-3'>Github Login </p>
+                </Button>
+            </a>
 
             <br />
             <h5 className='text-red-600'> {errorMsg} </h5>
