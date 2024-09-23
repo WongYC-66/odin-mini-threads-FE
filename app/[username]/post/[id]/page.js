@@ -50,7 +50,7 @@ export default function PostPage(props) {
     return (
         <div className="h-full">
             <div className='relative flex justify-center items-center'>
-                <Image alt='back' src='/back-button.png' width={30} height={30} className='inline absolute left-4 hover:scale-105 duration-150' onClick={handleGoBackClick}/>
+                <Image alt='back' src='/back-button.png' width={30} height={30} className='hidden md:inline-block absolute left-4 hover:scale-105 duration-150' onClick={handleGoBackClick} />
                 <h2 className="hidden md:block text-center font-black my-4">Thread</h2>
             </div>
 
@@ -58,10 +58,10 @@ export default function PostPage(props) {
             <div id="container" className="container mx-auto w-screen md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
 
                 {isLoading && <PostDetailSkeleton />}
-                {!isLoading && <PostDetail post={post} setIsLoading={setIsLoading}/>}
+                {!isLoading && <PostDetail post={post} setIsLoading={setIsLoading} />}
             </div>
 
-            
+
         </div>
     )
 }

@@ -1,19 +1,30 @@
 'use client'
 
+import { useState, useEffect } from 'react';
+
+import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export default function ProfileSkeleton() {
+export default function ProfileDetail(props) {
+
+    // 2. create ProfileDetail
+    // 3. create Self-page edit logic
+    const profile = props.profile
+
+    const fullname = profile.userProfile.firstName + " " + profile.userProfile.lastName
 
     return (
         <div className='flex flex-col w-full min-h-screen'>
-            {/*  */}
             <div className='flex flex-col gap-4 py-4 px-6'>
-
                 {/* Profile Names + Username + Picture */}
                 <div className='flex justify-between items-center'>
                     <div>
-                        <Skeleton className="h-6 w-44 my-2" />
-                        <Skeleton className="h-4 w-24" />
+                        <h2 className='font-bold font-size'>{fullname}</h2>
+                        <p>{profile.username}</p>
+
+                        {/* <Skeleton className="h-6 w-44 my-2" /> */}
+                        {/* <Skeleton className="h-4 w-24" />
+                         */}
                     </div>
 
                     <Skeleton className="h-20 w-20 rounded-full" />
@@ -51,7 +62,7 @@ export default function ProfileSkeleton() {
 
             {/* Comments Section */}
             <div className='grow flex flex-col justify-center gap-6 py-4 px-6'>
-                <Skeleton className="grow my-1"/>
+                <Skeleton className="grow my-1" />
             </div>
 
         </div >
