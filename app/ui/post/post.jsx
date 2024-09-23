@@ -58,20 +58,19 @@ export default function Post(props) {
     const routingClick = (e) => {
         // Prevent redirection if the click originated from the like button or user icon
         if (e.target.closest('.no-route')) {
-            e.stopPropagation(); // Stop the event from bubbling up
-        } else {
+            // prevent bubbling up
+        } else if(e.target.closest('.route')){
             // Handle routing logic
             router.push(`/@${author.username}/post/${postId}`)
         }
     }
 
     const handleCommentIconClick = (e) => {
-        e.stopPropagation();  // Prevent the click event from propagating
         setOpen(prev => !prev)
     }
 
     return (
-        <div className='flex p-6 justify-between border-solid border-b-2 hover:cursor-pointer z-5' onClick={routingClick}>
+        <div className='flex p-6 justify-between border-solid border-b-2 hover:cursor-pointer z-5 route' onClick={routingClick}>
             {/* User Photo */}
             <div className='relative flex items-start h-min-0'>
                 <Link href={`/@${author.username}`}>

@@ -77,7 +77,7 @@ export default function ModalNewComment(props) {
         {/* <Button variant="outline">Edit Profile</Button> */}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent className="sm:max-w-[425px] bg-white modal-content">
 
         <DialogHeader>
           <DialogTitle className='text-center'>Reply</DialogTitle>
