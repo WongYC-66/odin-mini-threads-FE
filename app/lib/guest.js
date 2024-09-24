@@ -18,8 +18,6 @@ export async function guestLogin() {
     // if error show error message
     if (error || !id || !token) {
         console.error(error)
-        setErrorMsg(error)
-        document.getElementById('password').value = ""
         return
     }
 

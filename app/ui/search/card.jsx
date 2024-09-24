@@ -19,7 +19,9 @@ export default function SearchCard(props) {
         // toFollow = Boolean
 
         const sendRequest = async () => {
-            const { token } = JSON.parse(localStorage.getItem('user'))
+            const data = JSON.parse(localStorage.getItem('user'))
+            if (!data) return
+            const { token } = data
 
             let url = `${API_URL}/users`
             url += toFollow ? "/follow/" : "/unfollow/"
@@ -55,7 +57,9 @@ export default function SearchCard(props) {
             <div className='flex items-center'>
                 {/* Image */}
                 <Link href={`/@${user.username}`}>
-                    <Image alt='photo' src={photoURL} className='rounded-full' width={50} height={50} />
+                    <div className="w-[50px] h-[50px] overflow-hidden flex justify-center">
+                        <Image alt='photo' src={photoURL} className='rounded-full object-cover' width={50} height={50} />
+                    </div>
                 </Link>
 
                 {/* Names & username, follower count  */}

@@ -83,7 +83,9 @@ export default function ProfileDetail(props) {
                         <p>{profile.username}</p>
                     </div>
 
-                    <Image src={profile.userProfile.photoURL} alt='profile photo' width={85} height={85} className='rounded-full' />
+                    <div className="w-[75px] h-[75px] overflow-hidden flex justify-center">
+                        <Image src={profile.userProfile.photoURL} alt='profile photo' width={85} height={85} className='rounded-full object-cover' />
+                    </div>
                 </div>
 
                 {/* description */}
@@ -116,7 +118,7 @@ export default function ProfileDetail(props) {
                 <ProfileTabs profile={profile} />
             </div>
 
-            <ModalUpdateProfile profile={profile} open={open} setOpen={setOpen} setIsLoading={props.setIsLoading}/>
+            <ModalUpdateProfile profile={profile} open={open} setOpen={setOpen} setIsLoading={props.setIsLoading} />
         </div >
     );
 }

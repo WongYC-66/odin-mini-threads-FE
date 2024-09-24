@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useRef } from "react"
 import Image from "next/image"
 
 import {
@@ -20,6 +21,42 @@ import API_URL from '@/app/lib/apiUrl.js'
 export default function ModalUpdateProfile(props) {
   const { profile, open, setOpen, setIsLoading } = props
 
+  const inputPhotoURL = useRef(null);
+  const [showInput, setShowInput] = useState(true)
+  const [avatarURL, setAvatarURL] = useState(profile?.userProfile.photoURL || '/user2.png')
+
+  const handleFileUpload = async (e) => {
+    const { token } = JSON.parse(localStorage.getItem('user'))
+    const file = e.target.files[0]
+    console.log(file)
+    if (!file) return
+
+    // return is a image link, populate to current photo and photoURL input
+    // disable photoURL input,
+
+    const formData = new FormData();
+    formData.append('avatar', file); // Append the file to FormData object
+
+    const response = await fetch(`${API_URL}/profiles/update-photo/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`, // Attach the Bearer token
+      },
+      body: formData,
+    });
+
+    const { photoURL, error } = await response.json()
+    if (error || !photoURL) {
+      console.log("error : ", error)
+      return
+    }
+    // passed
+    // console.log(photoURL)
+    setAvatarURL(photoURL)
+    inputPhotoURL.current.value = photoURL
+    setShowInput(false)
+  }
+
   const handleUpdateProfileSubmit = async (e) => {
     e.preventDefault()
 
@@ -27,6 +64,9 @@ export default function ModalUpdateProfile(props) {
       const { token } = JSON.parse(localStorage.getItem('user'))
       const formData = new FormData(e.target);
       const objectData = Object.fromEntries(formData.entries());
+
+      if (!showInput)
+        objectData.photoURL = avatarURL    // append if input is set hidden
 
       const response = await fetch(`${API_URL}/profiles/`, {
         method: 'PUT',
@@ -47,6 +87,7 @@ export default function ModalUpdateProfile(props) {
       }
       // passed, do something..
       setIsLoading(true)
+      setShowInput(true)
     }
 
     sendRequest()
@@ -71,9 +112,20 @@ export default function ModalUpdateProfile(props) {
               <Input placeholder="..." name="lastName" defaultValue={profile.userProfile.lastName} required />
             </div>
 
-            {/* Rounded Photo */}
-            <div className="grow flex justify-center items-center">
-              <Image alt='photo' className="rounded-full" src={profile?.userProfile.photoURL} width={75} height={75} />
+            {/* Rounded Avatar Photo */}
+            <div className="relative grow flex justify-center items-center ">
+              <div className="w-[75px] h-[75px] overflow-hidden flex justify-center">
+                <Image alt='photo' className="rounded-full object-cover" src={avatarURL} width={75} height={75} />
+              </div>
+
+              {/* Upload icon */}
+              {/* Hidden file input */}
+              <input id="fileInput" name="avatar" type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e)} />
+
+              {/* Upload icon wrapped in label */}
+              <label htmlFor="fileInput">
+                <Image alt='upload_icon' className="absolute transform -translate-x-6 translate-y-1/2 hover:scale-110 cursor-pointer" src='/upload.png' width={35} height={35} />
+              </label>
             </div>
           </div>
 
@@ -82,8 +134,10 @@ export default function ModalUpdateProfile(props) {
           <Textarea placeholder="your description ... " name="bio" defaultValue={profile.userProfile.bio} required />
 
           {/* photoUrl */}
-          <h4 className="font-bold my-2">{`Photo URL [optional]`} </h4>
-          <Input placeholder="..." name="photoURL" defaultValue={profile.userProfile.photoURL} required />
+          {showInput && <>
+            <h4 className="font-bold my-2">{`Photo URL [optional]`} </h4>
+            <Input placeholder="..." name="photoURL" defaultValue={profile.userProfile.photoURL} ref={inputPhotoURL} required />
+          </>}
 
         </form>
 

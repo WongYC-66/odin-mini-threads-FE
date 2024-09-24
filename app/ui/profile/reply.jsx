@@ -17,7 +17,9 @@ export default function Reply(props) {
             {/* comment User Photo */}
             <div className='relative flex items-start h-min-0'>
                 <Link href={`/@${author.username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} />
+                    <div className="w-[50px] h-[50px] overflow-hidden flex justify-center">
+                        <Image alt='photo' src={photoURL} className="rounded-full object-cover" width={50} height={50} />
+                    </div>
                 </Link>
             </div>
 

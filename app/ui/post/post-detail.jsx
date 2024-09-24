@@ -65,7 +65,10 @@ export default function PostDetail(props) {
                 <div className='flex items-center gap-2'>
                     {/* Post author Photo */}
                     <Link href={`/@${author.username}`}>
-                        <Image alt='photo' src={photoURL} width={50} height={50} className='no-route' />
+                        <div className="w-[50px] h-[50px] overflow-hidden flex justify-center">
+                            <Image alt='photo' src={photoURL} width={50} height={50} className='rounded-full object-cover no-route' />
+                            {/* <Image alt='photo' className="rounded-full object-cover" src={avatarURL} width={75} height={75} /> */}
+                        </div>
                     </Link>
 
                     {/* Post author username */}
@@ -109,7 +112,7 @@ export default function PostDetail(props) {
             {comments && comments.map(comment => <Comment key={comment.id} comment={comment} setComments={setComments} />)}
 
             {/* New Comment Modal Window */}
-            <ModalNewComment open={open} setOpen={setOpen} postAuthorName={author.username} postId={postId} setIsLoading={props.setIsLoading}/>
+            <ModalNewComment open={open} setOpen={setOpen} postAuthorName={author.username} postId={postId} setIsLoading={props.setIsLoading} />
 
         </div>
     );

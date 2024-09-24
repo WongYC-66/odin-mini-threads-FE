@@ -59,7 +59,7 @@ export default function Post(props) {
         // Prevent redirection if the click originated from the like button or user icon
         if (e.target.closest('.no-route')) {
             // prevent bubbling up
-        } else if(e.target.closest('.route')){
+        } else if (e.target.closest('.route')) {
             // Handle routing logic
             router.push(`/@${author.username}/post/${postId}`)
         }
@@ -74,12 +74,12 @@ export default function Post(props) {
             {/* User Photo */}
             <div className='relative flex items-start h-min-0'>
                 <Link href={`/@${author.username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} className='rounded-full no-route' />
-                </Link>
+                    <div className="w-[50px] h-[50px] overflow-hidden flex justify-center">
+                        <Image alt='photo' src={photoURL} width={50} height={50} className='rounded-full object-cover no-route' />
+                        {/* <Image alt='photo' className="rounded-full object-cover" src={avatarURL} width={75} height={75} /> */}
+                    </div>
 
-                {/* <Image alt='photo' src='/add-circle.png' width={20} height={20}
-                    className='absolute top-6 right-0 hover:scale-110 duration-150 ease-in-out '/>
-                    */}
+                </Link>
             </div>
 
             <div className='w-full ms-3 flex flex-col justify-between'>

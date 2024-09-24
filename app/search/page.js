@@ -18,7 +18,9 @@ export default function SearchPage() {
 
     useEffect(() => {
         // fetch all Profiles
-        const { token } = JSON.parse(localStorage.getItem('user'))
+        const data = JSON.parse(localStorage.getItem('user'))
+        if (!data) return
+        const { token } = data
 
         const fetchProfiles = async () => {
             const response = await fetch(`${API_URL}/profiles/`, {
@@ -53,7 +55,9 @@ export default function SearchPage() {
 
     useEffect(() => {
         // Filter profile by query
-        const { username: mySelfUsername } = JSON.parse(localStorage.getItem('user'))
+        const data = JSON.parse(localStorage.getItem('user'))
+        if (!data) return
+        const { username: mySelfUsername } = data
 
         const q = query.toLowerCase()
         const filtered = allProfiles
@@ -63,7 +67,7 @@ export default function SearchPage() {
                     lastName.toLowerCase().includes(q) ||
                     user.username.toLowerCase().includes(q)
             })
-            
+
 
         setFilteredProfiles(filtered)
     }, [query, allProfiles])

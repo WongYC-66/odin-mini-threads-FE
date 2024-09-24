@@ -74,7 +74,9 @@ export default function Thread(props) {
             {/* User Photo */}
             <div className='flex flex-col items-center h-min-0'>
                 <Link href={`/@${author.username}`}>
-                    <Image alt='photo' src={photoURL} width={50} height={50} className='no-route' />
+                    <div className="w-[50px] h-[50px] overflow-hidden flex justify-center">
+                        <Image alt='photo' src={photoURL} width={50} height={50} className='rounded-full object-cover no-route' />
+                    </div>
                 </Link>
                 {/* slim rectangular bar */}
                 <div className="bg-gray-200 w-1 h-full my-2"></div>
