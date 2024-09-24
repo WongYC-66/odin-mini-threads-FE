@@ -7,7 +7,7 @@ import Card from "../ui/search/card.jsx";
 import CardSkeleton from '../ui/search/card-skeleton.jsx';
 
 import { getAllUsers } from '../lib/fetchAPI.js';
-import { filterUser, readLocalStorage } from '../lib/utils.js';
+import { filterUser } from '../lib/utils.js';
 
 export default function SearchPage() {
 

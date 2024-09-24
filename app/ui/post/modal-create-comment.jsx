@@ -1,5 +1,5 @@
 'use client'
-
+import {useState, useEffect} from 'react'
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -25,7 +25,14 @@ export default function ModalNewComment(props) {
   const postAuthorName = props.postAuthorName
   const setIsLoading = props.setIsLoading
 
-  const {username, photoURL} = readLocalStorage()
+  const [username, setUsername] = useState('false')
+  const [photoURL, setPhotoURL] = useState('/user2.png')
+
+  useEffect(() => {
+      const { username, photoURL } = readLocalStorage()
+      setUsername(username)
+      setPhotoURL(photoURL)
+  }, [])
 
   const handleNewCommentSubmit = async (e) => {
     e.preventDefault()

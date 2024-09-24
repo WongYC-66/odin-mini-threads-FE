@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,8 +9,12 @@ import { readLocalStorage } from '@/app/lib/utils.js';
 export default function NavBarBottom() {
 
     const [openModal, setOpenModal] = useState(false)
+    const [username, setUsername] = useState('false')
 
-    const {username} = readLocalStorage()
+    useEffect(() => {
+        const { username } = readLocalStorage()
+        setUsername(username)
+    }, [])
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)
@@ -51,7 +55,7 @@ export default function NavBarBottom() {
             </div>
 
             {/* Modal upon clicking new post */}
-            <ModalNewPost open={openModal} setOpen={setOpenModal}/>
+            <ModalNewPost open={openModal} setOpen={setOpenModal} />
         </div>
     );
 }

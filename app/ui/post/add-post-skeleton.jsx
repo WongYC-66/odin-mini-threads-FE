@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,9 +11,15 @@ import { readLocalStorage } from '@/app/lib/utils.js';
 
 export default function AddPostSkeleton(props) {
 
-    const {username, photoURL} = readLocalStorage()
-
     const [openModal, setOpenModal] = useState(false)
+    const [username, setUsername] = useState('false')
+    const [photoURL, setPhotoURL] = useState('/user2.png')
+
+    useEffect(() => {
+        const { username, photoURL } = readLocalStorage()
+        setUsername(username)
+        setPhotoURL(photoURL)
+    }, [])
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)

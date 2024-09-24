@@ -1,9 +1,11 @@
 import API_URL from "./apiUrl"
 import { readLocalStorage } from "./utils.js"
 
-const { token, id, username } = readLocalStorage()
+// const { token, id, username, photoURL } = readLocalStorage()
 
 export async function getAllFollowingPosts() {
+    const { token, id, username, photoURL } = readLocalStorage()
+
     const response = await fetch(`${API_URL}/posts/`, {
         method: 'GET',
         headers: {
@@ -41,6 +43,7 @@ export async function getAllFollowingPosts() {
 }
 
 export async function sendLikeUnlikePost(tolike, postId) {
+    const { token, id, username, photoURL } = readLocalStorage()
 
     const response = await fetch(`${API_URL}/posts/like-unlike/`, {
         method: 'POST',
@@ -67,6 +70,8 @@ export async function sendLikeUnlikePost(tolike, postId) {
 }
 
 export async function createNewPost(e) {
+    const { token, id, username, photoURL } = readLocalStorage()
+
     const formData = new FormData(e.target);
     const objectData = Object.fromEntries(formData.entries());
 
@@ -88,6 +93,7 @@ export async function createNewPost(e) {
 }
 
 export async function createNewComment(e, postId) {
+    const { token, id, username, photoURL } = readLocalStorage()
 
     const formData = new FormData(e.target);
     const objectData = Object.fromEntries(formData.entries());
@@ -115,6 +121,7 @@ export async function createNewComment(e, postId) {
 }
 
 export async function getAllUsers() {
+    const { token, id, username, photoURL } = readLocalStorage()
 
     const response = await fetch(`${API_URL}/profiles/`, {
         method: 'GET',
@@ -140,7 +147,9 @@ export async function getAllUsers() {
     return { profiles, error }
 }
 
-export async function sendFollowUnfollowRequest(toFollow, id) {
+export async function sendFollowUnfollowRequest(toFollow, targetUserId) {
+    const { token, id, username, photoURL } = readLocalStorage()
+
     let url = `${API_URL}/users`
     url += toFollow ? "/follow/" : "/unfollow/"
     const response = await fetch(url, {
@@ -150,8 +159,8 @@ export async function sendFollowUnfollowRequest(toFollow, id) {
             'Authorization': `Bearer ${token}`, // Attach the Bearer token
         },
         body: JSON.stringify({
-            followId: id,
-            unfollowId: id,
+            followId: targetUserId,
+            unfollowId: targetUserId,
         })
     });
 
@@ -164,6 +173,7 @@ export async function sendFollowUnfollowRequest(toFollow, id) {
 }
 
 export async function getAPost(postId) {
+    const { token, id, username, photoURL } = readLocalStorage()
 
     const response = await fetch(`${API_URL}/posts/${postId}`, {
         method: 'GET',
@@ -182,9 +192,10 @@ export async function getAPost(postId) {
     return { post, error }
 }
 
-export async function fetchUserProfile(username) {
+export async function fetchUserProfile(targetUsername) {
+    const { token, id, username, photoURL } = readLocalStorage()
 
-    const response = await fetch(`${API_URL}/profiles/${username}`, {
+    const response = await fetch(`${API_URL}/profiles/${targetUsername}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -208,6 +219,8 @@ export async function fetchUserProfile(username) {
 }
 
 export async function uploadPhotoAndGetURL(file) {
+    const { token, id, username, photoURL:localPhotoURL } = readLocalStorage()
+
     const formData = new FormData();
     formData.append('avatar', file); // Append the file to FormData object
 
@@ -226,6 +239,8 @@ export async function uploadPhotoAndGetURL(file) {
 }
 
 export async function putProfileUpdate(e, avatarURL, toIncludeAvatarURL) {
+    const { token, id, username, photoURL } = readLocalStorage()
+
     const formData = new FormData(e.target);
     const objectData = Object.fromEntries(formData.entries());
 

@@ -40,4 +40,11 @@ export function filterUser(query, allProfiles) {
   return filtered
 }
 
+export function updateLocalStorage(payload) {
+  const original = readLocalStorage()
+  const updated = { ...original, ...payload }
+  localStorage.setItem('user', JSON.stringify(updated))
+}
+
+
 

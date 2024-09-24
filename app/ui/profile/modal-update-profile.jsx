@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
 import { putProfileUpdate, uploadPhotoAndGetURL } from "@/app/lib/fetchAPI"
+import { updateLocalStorage } from "@/app/lib/utils"
 
 export default function ModalUpdateProfile(props) {
   const { profile, open, setOpen, setIsLoading } = props
@@ -44,6 +45,7 @@ export default function ModalUpdateProfile(props) {
       let { error } = await putProfileUpdate(e, avatarURL, !showInput)
       if(error) return
       setIsLoading(true)
+      updateLocalStorage({photoURL : avatarURL})
       console.log("updated!!")
       window.location.reload()
     }

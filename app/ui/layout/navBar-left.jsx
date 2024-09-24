@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,7 +12,12 @@ export default function NavBarLeft(props) {
 
     const [openModal, setOpenModal] = useState(false)
 
-    const { username } = readLocalStorage()
+    const [username, setUsername] = useState('false')
+
+    useEffect(() => {
+        const { username } = readLocalStorage()
+        setUsername(username)
+    }, [])
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)
