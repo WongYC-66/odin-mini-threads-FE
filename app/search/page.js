@@ -81,8 +81,6 @@ export default function SearchPage() {
         inputRef.current.focus()
     }
 
-    // console.log(filterProfiles)
-
     return (
         <div className="h-full">
             <h2 className="hidden md:block text-center font-black my-4">Search</h2>

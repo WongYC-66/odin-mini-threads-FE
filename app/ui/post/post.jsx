@@ -12,7 +12,6 @@ import ModalNewComment from './modal-create-comment.jsx';
 export default function Post(props) {
     const router = useRouter()
     const { id: postId, author, content, _count, timestamp, isLiked } = props.post
-    // console.log(props.post)
 
     const [liked, setLiked] = useState(isLiked)
     const [likedCount, setLikedCount] = useState(_count.likedBy)

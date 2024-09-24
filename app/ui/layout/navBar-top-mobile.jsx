@@ -11,7 +11,6 @@ export default function NavBarTop(props) {
     const router = useRouter();
 
     const handleGoBackClick = () => {
-        // router.replace('/')
         router.back()
     }
 
@@ -25,11 +24,8 @@ export default function NavBarTop(props) {
                 <Image alt="logo.png" src="/logo.png" width={48} height={48}
                     className='hover:scale-110 ease-in-out duration-200' />
             </Link>
-            {/* </div> */}
 
             <div className='px-4 py-2 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-
-                {/* <Image alt="settings.png" src="/settings.png" width={40} height={40} /> */}
                 <SettingMenuBar />
             </div>
 

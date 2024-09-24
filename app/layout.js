@@ -1,7 +1,6 @@
 'use client';
 
 import localFont from "next/font/local";
-import Image from 'next/image'
 import "./globals.css";
 
 import { useEffect, useState } from 'react';
@@ -11,6 +10,8 @@ import { useRouter } from 'next/navigation';
 import NavBarLeft from "./ui/layout/navBar-left";
 import NavBarTop from "./ui/layout/navBar-top-mobile";
 import NavBarBottom from "./ui/layout/navBar-bottom-mobile";
+
+import { checkAuth } from "./lib/utils";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,23 +28,19 @@ export default function RootLayout({ children, title }) {
 
   const router = useRouter();
   const pathName = usePathname();
-  const [username, setUsername] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // Check user's Authentication, if not signed-in, redirect to sign-in page
   useEffect(() => {
-    const checkAuth = () => {
-      const { username, id, token } = JSON.parse(localStorage.getItem('user')) || {}
-      if (!username || !token) {
-        console.log('Invalid login credentials, please log in');
-        router.push('/sign-in');
-        return
-      }
-      setUsername(username)
-    }
 
-    if (pathName != '/sign-in' && pathName != '/sign-up')
-      checkAuth();
-
+    if (pathName != '/sign-in' && pathName != '/sign-up'){
+      if(checkAuth()){
+        setIsLoggedIn(true)
+      } else{
+        setIsLoggedIn(false)
+        router.push('/sign-in') // reroute if no login info at localstorage
+      }     
+    } 
   }, [router, pathName]);
 
   return (
@@ -53,13 +50,13 @@ export default function RootLayout({ children, title }) {
 
         {/* Top Bar Section - Logo & Setting (in mobile view)*/}
         <div className="md:hidden">
-          {username && <NavBarTop />}
+          {isLoggedIn && <NavBarTop />}
         </div>
 
         <div className="flex min-h-screen bg-slate-50">
 
           {/* Left Section - Nav Bar */}
-          {username && <NavBarLeft username={username} />}
+          {isLoggedIn && <NavBarLeft />}
 
           {/* Middle Section - Main */}
           <div className="flex flex-col grow items-center">
@@ -85,8 +82,8 @@ export default function RootLayout({ children, title }) {
 
         {/* Bottom Bar Section - 5 buttons(in mobile view)*/}
         <div className="md:hidden">
-          {username &&
-            <NavBarBottom username={username} />}
+          {isLoggedIn &&
+            <NavBarBottom />}
         </div>
 
       </body>

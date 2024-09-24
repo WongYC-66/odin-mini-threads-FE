@@ -4,19 +4,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import ModalNewPost from './modal-create-post.jsx'
+import { readLocalStorage } from '@/app/lib/utils.js';
 
-export default function NavBarBottom(props) {
+export default function NavBarBottom() {
 
     const [openModal, setOpenModal] = useState(false)
 
-    const username = props.username
+    const {username} = readLocalStorage()
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)
     }
 
     return (
-        <div className="fixed bottom-0 flex gap-6 justify-center w-screen bg-white py-4 z-10">
+        <div className="fixed bottom-0 flex gap-6 justify-center w-screen bg-white py-4 min-h-[110px] z-10">
 
             <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
                 <Link href='/'>

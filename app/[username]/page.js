@@ -61,8 +61,6 @@ export default function ProfilePage() {
         router.back()
     }
 
-    // console.log(profile)
-
 
     return (
         <div className="h-full">

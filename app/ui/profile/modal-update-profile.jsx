@@ -28,7 +28,6 @@ export default function ModalUpdateProfile(props) {
   const handleFileUpload = async (e) => {
     const { token } = JSON.parse(localStorage.getItem('user'))
     const file = e.target.files[0]
-    console.log(file)
     if (!file) return
 
     // return is a image link, populate to current photo and photoURL input
@@ -51,7 +50,6 @@ export default function ModalUpdateProfile(props) {
       return
     }
     // passed
-    // console.log(photoURL)
     setAvatarURL(photoURL)
     inputPhotoURL.current.value = photoURL
     setShowInput(false)
@@ -93,6 +91,8 @@ export default function ModalUpdateProfile(props) {
     sendRequest()
     setOpen(false)
     console.log("updated!!")
+    // force refresh
+    window.location.reload()
   }
 
   return (

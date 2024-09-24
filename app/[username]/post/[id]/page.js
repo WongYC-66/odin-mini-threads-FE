@@ -17,7 +17,10 @@ export default function PostPage(props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const { token } = JSON.parse(localStorage.getItem('user'))
+        const data = JSON.parse(localStorage.getItem('user'))
+        if (!data) return
+        const { token } = data
+
 
         const sendRequest = async () => {
             const response = await fetch(`${API_URL}/posts/${postId}`, {
@@ -44,8 +47,6 @@ export default function PostPage(props) {
     const handleGoBackClick = () => {
         router.back()
     }
-
-    console.log(post)
 
     return (
         <div className="h-full">

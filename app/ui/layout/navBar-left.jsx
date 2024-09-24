@@ -6,12 +6,13 @@ import Link from 'next/link';
 
 import ModalNewPost from './modal-create-post.jsx'
 import SettingMenuBar from './setting-menubar.jsx'
+import { readLocalStorage } from '@/app/lib/utils.js';
 
 export default function NavBarLeft(props) {
 
-    const [openModal, setOpenModal] = useState(false) 
+    const [openModal, setOpenModal] = useState(false)
 
-    const username = props.username
+    const { username } = readLocalStorage()
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)
@@ -75,7 +76,7 @@ export default function NavBarLeft(props) {
             </div>
 
             {/* Modal upon clicking new post */}
-            <ModalNewPost open={openModal} setOpen={setOpenModal}/>
+            <ModalNewPost open={openModal} setOpen={setOpenModal} />
         </nav>
     );
 }
