@@ -118,3 +118,22 @@ export async function getAllUsers() {
 
     return { profiles, error }
 }
+
+export async function getAPost(postId) {
+
+    const response = await fetch(`${API_URL}/posts/${postId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+    });
+
+    let { post, error } = await response.json()
+
+    // if error show error message
+    if (error) {
+        console.error(error)
+    }
+
+    return { post, error }
+}

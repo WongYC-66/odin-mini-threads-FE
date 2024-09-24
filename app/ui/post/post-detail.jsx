@@ -1,13 +1,13 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import moment from 'moment'
 
 import Link from 'next/link'
 import Image from 'next/image'
 
 import Comment from './comment.jsx'
-import API_URL from '@/app/lib/apiUrl.js'
 import ModalNewComment from './modal-create-comment.jsx'
+import { sendLikeUnlikePost } from '@/app/lib/fetchAPI.js'
 
 export default function PostDetail(props) {
 
@@ -22,37 +22,13 @@ export default function PostDetail(props) {
     const relativeTime = moment(timestamp).fromNow();
 
     const handleLikeClick = () => {
-
         const sendRequest = async () => {
-            const { id: userId, token } = JSON.parse(localStorage.getItem('user'))
-
-            const response = await fetch(`${API_URL}/posts/like-unlike/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-                body: JSON.stringify({
-                    userId: userId,
-                    postId: postId,
-                    like: !liked,
-                })
-            });
-
-            let { error } = await response.json()
-
-            // if error show error message
-            if (error) {
-                console.error(error)
-                alert("Ooops, something went wrong, try again")
-                return
-            }
+            let { error } = await sendLikeUnlikePost(!liked, postId)
+            if (error) return
+            setLiked((prev) => !prev)
+            setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
         }
-
         sendRequest()
-
-        setLiked((prev) => !prev)
-        setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
     }
 
     const handleCommentIconClick = () => {
@@ -106,7 +82,6 @@ export default function PostDetail(props) {
                     </div>
                 </div>
             </div>
-
 
             {/* Comments */}
             {comments && comments.map(comment => <Comment key={comment.id} comment={comment} setComments={setComments} />)}

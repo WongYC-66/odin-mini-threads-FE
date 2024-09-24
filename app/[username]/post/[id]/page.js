@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-import API_URL from '@/app/lib/apiUrl.js';
 import PostDetailSkeleton from '@/app/ui/post/post-detail-skeleton.jsx';
 import PostDetail from '@/app/ui/post/post-detail.jsx';
+import { getAPost } from '@/app/lib/fetchAPI';
 
 export default function PostPage(props) {
     const router = useRouter();
@@ -17,29 +17,12 @@ export default function PostPage(props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('user'))
-        if (!data) return
-        const { token } = data
-
-
         const sendRequest = async () => {
-            const response = await fetch(`${API_URL}/posts/${postId}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-            });
-
-            let { post, error } = await response.json()
-
-            // if error show error message
-            if (error) {
-                console.error(error)
-                return
+            const { post, error } = await getAPost(postId)
+            if (!error) {
+                setPost(post)
+                setIsLoading(false)
             }
-            // passed
-            setPost(post)
-            setIsLoading(false)
         }
         sendRequest()
     }, [postId, isLoading]);
@@ -55,14 +38,10 @@ export default function PostPage(props) {
                 <h2 className="hidden md:block text-center font-black my-4">Thread</h2>
             </div>
 
-            {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
             <div id="container" className="container mx-auto w-screen md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
-
                 {isLoading && <PostDetailSkeleton />}
                 {!isLoading && <PostDetail post={post} setIsLoading={setIsLoading} />}
             </div>
-
-
         </div>
     )
 }
