@@ -4,27 +4,24 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
 
-import API_URL from '@/app/lib/apiUrl';
-import ProfileTabs from './tabs';
+import ProfileTabs from './tabs.jsx';
 import ModalUpdateProfile from './modal-update-profile.jsx';
 
+import { readLocalStorage } from '@/app/lib/utils';
+import { sendFollowUnfollowRequest } from '@/app/lib/fetchAPI';
+
 export default function ProfileDetail(props) {
-
-    // 2. create ProfileDetail
-    // 3. create Self-page edit logic
     const profile = props.profile
-
     const fullname = `${profile.userProfile.firstName || ''} ${profile.userProfile.lastName || ''}`
 
     const [followed, setFollowed] = useState(profile.is_followed)
-    const [isSelf, setIsSelf] = useState(false)
-    const [open, setOpen] = useState(false)         // update profile modal
+    const [isSelf, setIsSelf] = useState(false)         
+    const [open, setOpen] = useState(false)             // update profile modal
 
     useEffect(() => {
-        const { id } = JSON.parse(localStorage.getItem('user'))
-        if (id == profile.id)
-            setIsSelf(true)
-
+        const { id } = readLocalStorage()
+        let same = id == profile.id
+        setIsSelf(same)
     }, [profile.id])
 
     const toInstagram = () => {
@@ -40,37 +37,12 @@ export default function ProfileDetail(props) {
     }
 
     const handleFollowBtnClick = () => {
-
         const sendRequest = async () => {
-            const { token } = JSON.parse(localStorage.getItem('user'))
-
-            let url = `${API_URL}/users`
-            url += followed ? "/unfollow/" : "/follow/"
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-                body: JSON.stringify({
-                    followId: profile.id,
-                    unfollowId: profile.id,
-                })
-            });
-
-            let { error } = await response.json()
-
-            // if error show error message
-            if (error) {
-                console.error(error)
-                alert("Ooops, something went wrong, try again")
-                return
-            }
+            let { error } = await sendFollowUnfollowRequest(!followed, profile.id)
+            if (error) return
+            setFollowed((prev) => !prev)
         }
-
         sendRequest()
-
-        setFollowed((prev) => !prev)
     }
 
     return (
@@ -115,9 +87,10 @@ export default function ProfileDetail(props) {
 
             {/* Tabs Section */}
             <div className='grow py-4 w-full'>
-                <ProfileTabs profile={profile} />
+                <ProfileTabs profile={profile} setIsLoading={props.setIsLoading}/>
             </div>
 
+            {/* Modal window - edit self profile */}
             <ModalUpdateProfile profile={profile} open={open} setOpen={setOpen} setIsLoading={props.setIsLoading} />
         </div >
     );

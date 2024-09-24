@@ -66,6 +66,27 @@ export async function sendLikeUnlikePost(tolike, postId) {
     return { error }
 }
 
+export async function createNewPost(e) {
+    const formData = new FormData(e.target);
+    const objectData = Object.fromEntries(formData.entries());
+
+    const response = await fetch(`${API_URL}/posts/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+        body: JSON.stringify(objectData),
+    });
+
+    let { error } = await response.json()
+    if (error) {
+        console.error(error)
+        alert("Ooops, something went wrong, try again")
+    }
+    return { error }
+}
+
 export async function createNewComment(e, postId) {
 
     const formData = new FormData(e.target);
@@ -119,6 +140,29 @@ export async function getAllUsers() {
     return { profiles, error }
 }
 
+export async function sendFollowUnfollowRequest(toFollow, id) {
+    let url = `${API_URL}/users`
+    url += toFollow ? "/follow/" : "/unfollow/"
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+        body: JSON.stringify({
+            followId: id,
+            unfollowId: id,
+        })
+    });
+
+    let { error } = await response.json()
+    if (error) {
+        console.error(error)
+        alert("Ooops, something went wrong, try again")
+    }
+    return { error }
+}
+
 export async function getAPost(postId) {
 
     const response = await fetch(`${API_URL}/posts/${postId}`, {
@@ -136,4 +180,70 @@ export async function getAPost(postId) {
     }
 
     return { post, error }
+}
+
+export async function fetchUserProfile(username) {
+
+    const response = await fetch(`${API_URL}/profiles/${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+    });
+
+    let { profile, postLiked, error } = await response.json()
+
+    // if error show error message
+    if (error) {
+        console.error(error)
+        alert("Ooops, something went wrong, try again")
+    }
+
+    postLiked = new Set(postLiked)
+    profile.threads.forEach(t => t.isLiked = postLiked.has(t.id))
+    profile.replies.forEach(({ Post }) => Post.isLiked = postLiked.has(Post.id))
+
+    return { profile, postLiked, error }
+}
+
+export async function uploadPhotoAndGetURL(file) {
+    const formData = new FormData();
+    formData.append('avatar', file); // Append the file to FormData object
+
+    const response = await fetch(`${API_URL}/profiles/update-photo/`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+        body: formData,
+    });
+    const { photoURL, error } = await response.json()
+    if (error || !photoURL) {
+        console.log("error : ", error)
+    }
+    return { photoURL, error }
+}
+
+export async function putProfileUpdate(e, avatarURL, toIncludeAvatarURL) {
+    const formData = new FormData(e.target);
+    const objectData = Object.fromEntries(formData.entries());
+
+    if (toIncludeAvatarURL)
+        objectData.photoURL = avatarURL    // append if input is set hidden
+
+    const response = await fetch(`${API_URL}/profiles/`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+        body: JSON.stringify(objectData),
+    });
+    let { error } = await response.json()
+    if (error) {
+        console.error(error)
+        alert("Ooops, something went wrong, try again")
+    }
+    return { error }
 }

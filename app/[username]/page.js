@@ -3,64 +3,36 @@
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import ProfileSkeleton from '../ui/profile/profile-skeleton';
 
-import API_URL from '@/app/lib/apiUrl.js'
+import ProfileSkeleton from '../ui/profile/profile-skeleton';
 import ProfileDetail from '../ui/profile/profile-detail';
+
+import { fetchUserProfile } from '../lib/fetchAPI';
 
 export default function ProfilePage() {
 
     const router = useRouter()
-    const breadcrumbLast = usePathname().split('/').pop()
-    if (!breadcrumbLast.startsWith("@"))    // invalid url like "@user1", re-route to home
+    const endpoint = usePathname().split('/').pop()
+    if (!endpoint.startsWith("@"))    // invalid url like "@user1", re-route to home
         router.push('/')
 
     const [isLoading, setIsLoading] = useState(true)
     const [profile, setProfile] = useState(null)
-    const username = usePathname().split('/@').pop()
+    const username = endpoint.split('@').pop()
 
     useEffect(() => {
-
         const sendRequest = async () => {
-            const data = JSON.parse(localStorage.getItem('user'))
-            if(!data) return
-            const { token } = data
-
-            const response = await fetch(`${API_URL}/profiles/${username}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-            });
-
-            let { profile, postLiked, error } = await response.json()
-
-            // if error show error message
-            if (error) {
-                console.error(error)
-                alert("Ooops, something went wrong, try again")
-                return
-            }
-
-            // passed
-            postLiked = new Set(postLiked)
-            profile.threads.forEach(t => t.isLiked = postLiked.has(t.id))
-            profile.replies.forEach(({Post}) => Post.isLiked = postLiked.has(Post.id))
-
+            let { profile, error } = await fetchUserProfile(username)
+            if (error) return
             setProfile(profile)
-            setIsLoading(false) // partially refresh by fetch at root url if triggers from home screen
-
+            setIsLoading(false)
         }
-
         sendRequest()
     }, [username, isLoading])
-
 
     const handleGoBackClick = () => {
         router.back()
     }
-
 
     return (
         <div className="h-full">
@@ -71,12 +43,9 @@ export default function ProfilePage() {
 
             {/* <div id="container" className="container mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0"> */}
             <div id="container" className="container mx-auto w-screen md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
-
                 {isLoading && <ProfileSkeleton />}
                 {!isLoading && <ProfileDetail profile={profile} setIsLoading={setIsLoading} />}
             </div>
-
-
         </div>
     )
 }

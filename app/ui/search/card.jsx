@@ -6,50 +6,20 @@ import Link from 'next/link';
 
 import { Button } from "@/components/ui/button"
 
-import API_URL from '../../lib/apiUrl.js'
+import { sendFollowUnfollowRequest } from '@/app/lib/fetchAPI.js';
 
 export default function SearchCard(props) {
 
     const { firstName, lastName, photoURL, user, isFollowing } = props.profile
-
     const [followed, setFollowed] = useState(isFollowing)
 
-
-    const handleButtonClick = (toFollow) => {
-        // toFollow = Boolean
-
+    const handleButtonClick = () => {
         const sendRequest = async () => {
-            const data = JSON.parse(localStorage.getItem('user'))
-            if (!data) return
-            const { token } = data
-
-            let url = `${API_URL}/users`
-            url += toFollow ? "/follow/" : "/unfollow/"
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-                body: JSON.stringify({
-                    followId: user.id,
-                    unfollowId: user.id,
-                })
-            });
-
-            let { error } = await response.json()
-
-            // if error show error message
-            if (error) {
-                console.error(error)
-                alert("Ooops, something went wrong, try again")
-                return
-            }
+            let { error } = await sendFollowUnfollowRequest(!followed, user.id)
+            if (error) return
+            setFollowed((prev) => !prev)
         }
-
         sendRequest()
-
-        setFollowed((prev) => !prev)
     }
 
     return (

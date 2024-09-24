@@ -23,11 +23,11 @@ export default function ProfileTabs(props) {
             </TabsList>
 
             <TabsContent value="threads">
-                {threads.map(thread => <Post key={thread.id} post={thread} />)}
+                {threads.map(thread => <Post key={thread.id} post={thread} setIsLoading={props.setIsLoading} />)}
             </TabsContent>
 
             <TabsContent value="replies">
-                {replies.map(reply => <ReplyWithThread key={reply.id} reply={reply} />)}
+                {replies.map(reply => <ReplyWithThread key={reply.id} reply={reply} setIsLoading={props.setIsLoading} />)}
             </TabsContent>
 
             <TabsContent value="reposts">

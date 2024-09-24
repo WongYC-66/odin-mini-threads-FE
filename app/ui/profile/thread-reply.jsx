@@ -11,12 +11,12 @@ export default function ReplyWithThread(props) {
 
             {/* Original Thread section i.e post */}
             <div>
-                <Thread thread={Post} />
+                <Thread thread={Post} setIsLoading={props.setIsLoading}/>
             </div>
 
             {/* Reply section i.e. comment*/}
             <div>
-                <Reply reply={props.reply} />
+                <Reply reply={props.reply} setIsLoading={props.setIsLoading}/>
             </div>
         </div>
     );

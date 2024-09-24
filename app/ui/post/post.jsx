@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import moment from 'moment';
 
-import API_URL from "../../lib/apiUrl.js"
 import ModalNewComment from './modal-create-comment.jsx';
 import { sendLikeUnlikePost } from '@/app/lib/fetchAPI.js';
 
@@ -22,28 +21,26 @@ export default function Post(props) {
     const relativeTime = moment(timestamp).fromNow();
 
     const handleLikeClick = () => {
-
         const sendRequest = async () => {
             let { error } = await sendLikeUnlikePost(!liked, postId)
             if (error) return
             setLiked((prev) => !prev)
             setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
         }
-
         sendRequest()
     }
 
     const routingClick = (e) => {
         // Prevent redirection if the click originated from the like button or user icon
         if (e.target.closest('.no-route')) {
-            // prevent bubbling up
+            e.stopPropagation(); // Stop the event from bubbling up
         } else if (e.target.closest('.route')) {
             // Handle routing logic
             router.push(`/@${author.username}/post/${postId}`)
         }
     }
 
-    const handleCommentIconClick = (e) => {
+    const handleCommentIconClick = () => {
         setOpen(prev => !prev)
     }
 

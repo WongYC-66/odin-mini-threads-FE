@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-import API_URL from '@/app/lib/apiUrl.js'
+import { putProfileUpdate, uploadPhotoAndGetURL } from "@/app/lib/fetchAPI"
 
 export default function ModalUpdateProfile(props) {
   const { profile, open, setOpen, setIsLoading } = props
@@ -26,73 +26,30 @@ export default function ModalUpdateProfile(props) {
   const [avatarURL, setAvatarURL] = useState(profile?.userProfile.photoURL || '/user2.png')
 
   const handleFileUpload = async (e) => {
-    const { token } = JSON.parse(localStorage.getItem('user'))
-    const file = e.target.files[0]
-    if (!file) return
-
-    // return is a image link, populate to current photo and photoURL input
-    // disable photoURL input,
-
-    const formData = new FormData();
-    formData.append('avatar', file); // Append the file to FormData object
-
-    const response = await fetch(`${API_URL}/profiles/update-photo/`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`, // Attach the Bearer token
-      },
-      body: formData,
-    });
-
-    const { photoURL, error } = await response.json()
-    if (error || !photoURL) {
-      console.log("error : ", error)
-      return
+    const sendRequest = async () => {
+      const file = e.target.files[0]
+      if (!file) return
+      const { photoURL, error } = await uploadPhotoAndGetURL(file)
+      if (error) return
+      setAvatarURL(photoURL)
+      inputPhotoURL.current.value = photoURL
+      setShowInput(false)
     }
-    // passed
-    setAvatarURL(photoURL)
-    inputPhotoURL.current.value = photoURL
-    setShowInput(false)
+    sendRequest()
   }
 
   const handleUpdateProfileSubmit = async (e) => {
     e.preventDefault()
-
     const sendRequest = async () => {
-      const { token } = JSON.parse(localStorage.getItem('user'))
-      const formData = new FormData(e.target);
-      const objectData = Object.fromEntries(formData.entries());
-
-      if (!showInput)
-        objectData.photoURL = avatarURL    // append if input is set hidden
-
-      const response = await fetch(`${API_URL}/profiles/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Attach the Bearer token
-        },
-        body: JSON.stringify(objectData),
-      });
-
-      let { error } = await response.json()
-
-      // if error show error message
-      if (error) {
-        console.error(error)
-        alert("Ooops, something went wrong, try again")
-        return
-      }
-      // passed, do something..
+      let { error } = await putProfileUpdate(e, avatarURL, !showInput)
+      if(error) return
       setIsLoading(true)
-      setShowInput(true)
+      console.log("updated!!")
+      window.location.reload()
     }
-
     sendRequest()
     setOpen(false)
-    console.log("updated!!")
-    // force refresh
-    window.location.reload()
+    setShowInput(true)
   }
 
   return (

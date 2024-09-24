@@ -14,8 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-
-import API_URL from '../../lib/apiUrl.js'
+import { createNewPost } from "@/app/lib/fetchAPI"
 
 export default function ModalNewPost(props) {
 
@@ -28,49 +27,25 @@ export default function ModalNewPost(props) {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('user'))
-    if(!data) return
+    if (!data) return
     const { username, photoURL } = data
     setUsername(username)
     setPhotoURL(photoURL || '/user2.png')
   }, [])
 
   const handleNewPostSubmit = async (e) => {
-    e.preventDefault()
-
     const sendRequest = async () => {
-      const { token } = JSON.parse(localStorage.getItem('user'))
-
-      const formData = new FormData(e.target);
-      const objectData = Object.fromEntries(formData.entries());
-
-      const response = await fetch(`${API_URL}/posts/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Attach the Bearer token
-        },
-        body: JSON.stringify(objectData),
-      });
-
-      let { error } = await response.json()
-
-      // if error show error message
-      if (error) {
-        console.error(error)
-        alert("Ooops, something went wrong, try again")
-        return
-      }
-      // passed
+      let { error } = await createNewPost(e)
+      if (error) return
+      console.log("submitted!")
       if (setIsLoading)
         setIsLoading(true) // partially refresh by fetch at root url if triggers from home screen
       else
         window.location.reload() // full refresh if triggers from nav bar (left/bottom)
     }
-
+    e.preventDefault()
     sendRequest()
-
     setOpen(false)
-    console.log("submitted!")
   }
 
   return (
