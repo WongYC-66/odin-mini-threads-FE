@@ -18,14 +18,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export default function SettingMenuBar() {
+export default function SettingMenuBar(props) {
 
     const router = useRouter()
+    const setIsLoggedIn = props.setIsLoggedIn
 
     const handleLogOut = () => {
         localStorage.removeItem('user')
+        setIsLoggedIn(false)
         router.push('/sign-in')
-        window.location.reload()
+        // window.location.reload()
     }
 
     return (

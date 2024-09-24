@@ -33,14 +33,14 @@ export default function RootLayout({ children, title }) {
   // Check user's Authentication, if not signed-in, redirect to sign-in page
   useEffect(() => {
 
-    if (pathName != '/sign-in' && pathName != '/sign-up'){
-      if(checkAuth()){
+    if (pathName != '/sign-in' && pathName != '/sign-up') {
+      if (checkAuth()) {
         setIsLoggedIn(true)
-      } else{
+      } else {
         setIsLoggedIn(false)
         router.push('/sign-in') // reroute if no login info at localstorage
-      }     
-    } 
+      }
+    }
   }, [router, pathName]);
 
   return (
@@ -50,19 +50,19 @@ export default function RootLayout({ children, title }) {
 
         {/* Top Bar Section - Logo & Setting (in mobile view)*/}
         <div className="md:hidden">
-          {isLoggedIn && <NavBarTop />}
+          {isLoggedIn && <NavBarTop setIsLoggedIn={setIsLoggedIn} />}
         </div>
 
         <div className="flex min-h-screen bg-slate-50">
 
           {/* Left Section - Nav Bar */}
-          {isLoggedIn && <NavBarLeft />}
+          {isLoggedIn && <NavBarLeft setIsLoggedIn={setIsLoggedIn} />}
 
           {/* Middle Section - Main */}
           <div className="flex flex-col grow items-center">
 
             {/* Dummy-Gap Mobile-view */}
-            <div className="md:hidden py-10"></div>
+            {isLoggedIn && <div className="md:hidden py-10"></div>}
 
             {/* Render children Page */}
             <main className="grow flex flex-col items-center w-full">

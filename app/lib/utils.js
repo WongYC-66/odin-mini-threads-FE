@@ -22,3 +22,4 @@ export function checkAuth(){
 
   return false      // if one of them is falsy, not logged in
 }
+

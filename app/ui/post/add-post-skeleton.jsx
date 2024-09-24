@@ -1,24 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 
 import ModalNewPost from '../layout/modal-create-post.jsx'
+import { readLocalStorage } from '@/app/lib/utils.js';
 
 export default function AddPostSkeleton(props) {
 
-    const [username, setUsername] = useState('')
-    const [photoURL, setPhotoURL] = useState('/user2.png')
-    const [openModal, setOpenModal] = useState(false)
+    const {username, photoURL} = readLocalStorage()
 
-    useEffect(() => {
-        const { username, photoURL } = JSON.parse(localStorage.getItem('user')) || {}
-        setUsername(username)
-        setPhotoURL(photoURL)
-    }, [])
+    const [openModal, setOpenModal] = useState(false)
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)

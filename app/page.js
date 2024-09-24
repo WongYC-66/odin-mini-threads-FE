@@ -1,63 +1,33 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import Post from "./ui/post/post.jsx";
 import PostSkeleton from "./ui/post/post-skeleton.jsx";
-import API_URL from './lib/apiUrl.js'
 import AddPostSkeleton from './ui/post/add-post-skeleton.jsx';
+
+import { getAllFollowingPosts } from './lib/fetchAPI.js';
 
 export default function Home() {
 
-  const [fetchCount, setFetchCount] = useState(1) // todo - infinite scroll, fetching
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('user'))
-    if(!data) return 
-    const { token } = data
 
-    const getPosts = async () => {
-      const response = await fetch(`${API_URL}/posts/`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`, // Attach the Bearer token
-        },
-      });
-
-      let { posts, postLiked, error } = await response.json()
-
-      // if error show error message
-      if (error) {
-        console.error(error)
-        return
+    const sendRequest = async () => {
+      const { posts, error } = await getAllFollowingPosts()
+      setPosts(posts)
+      if (!error) {
+        setIsLoading(false)
+      } else {
+        setIsLoading(true)
       }
-      // passed
-      postLiked = new Set(postLiked)
-      const fetchedPosts = posts.map(post => {
-        post.isLiked = postLiked.has(post.id)
-        return post
-      })
-
-      // remove duplicatePosts , // for Dev mode
-      let combinedPosts = [...posts, ...fetchedPosts]
-      let duplicate = new Set()
-      combinedPosts = combinedPosts.filter(post => {
-        if(!duplicate.has(post.id)){
-          duplicate.add(post.id)
-          return true
-        }
-        return false
-      })
-
-      setPosts(combinedPosts)
-      setIsLoading(false)
     }
 
-    getPosts()
+    sendRequest()
 
-  }, [fetchCount, isLoading])
+  }, [isLoading])
 
   return (
     <div className="h-full w-full">
@@ -67,14 +37,14 @@ export default function Home() {
       <div id="container" className="container mx-auto md:max-w-md lg:max-w-lg xl:max-w-xl border-solid border-2 rounded-t-3xl min-h-screen bg-white p-0">
 
         {/* Add Post Modal Window */}
-        <AddPostSkeleton setIsLoading={setIsLoading}/>
+        <AddPostSkeleton setIsLoading={setIsLoading} />
 
         {/* Fake skeleton post */}
         {isLoading && Array(10).fill().map((_, i) => <PostSkeleton key={`${i}-dummy-post`} />)}
-        
+
         {/* Real post */}
         {!isLoading && posts.map((post, i) =>
-          <Post key={i} post={post} setIsLoading={setIsLoading}/>
+          <Post key={i} post={post} setIsLoading={setIsLoading} />
         )}
         {!isLoading && posts.length === 0 && <p className='p-6'> oops, there is no recent post. Try follow someone or write ur new post</p>}
       </div>

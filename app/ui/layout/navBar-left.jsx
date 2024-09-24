@@ -71,7 +71,7 @@ export default function NavBarLeft(props) {
                 </div>
                 <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
                     {/* <Image alt="settings.png" src="/settings.png" width={40} height={40} /> */}
-                    <SettingMenuBar />
+                    <SettingMenuBar setIsLoggedIn={props.setIsLoggedIn} />
                 </div>
             </div>
 

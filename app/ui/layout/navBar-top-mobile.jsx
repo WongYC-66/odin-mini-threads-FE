@@ -26,7 +26,7 @@ export default function NavBarTop(props) {
             </Link>
 
             <div className='px-4 py-2 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-                <SettingMenuBar />
+                <SettingMenuBar setIsLoggedIn={props.setIsLoggedIn} />
             </div>
 
         </div>

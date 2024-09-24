@@ -8,6 +8,7 @@ import moment from 'moment';
 
 import API_URL from "../../lib/apiUrl.js"
 import ModalNewComment from './modal-create-comment.jsx';
+import { sendLikeUnlikePost } from '@/app/lib/fetchAPI.js';
 
 export default function Post(props) {
     const router = useRouter()
@@ -23,35 +24,13 @@ export default function Post(props) {
     const handleLikeClick = () => {
 
         const sendRequest = async () => {
-            const { id: userId, token } = JSON.parse(localStorage.getItem('user'))
-
-            const response = await fetch(`${API_URL}/posts/like-unlike/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-                body: JSON.stringify({
-                    userId: userId,
-                    postId: postId,
-                    like: !liked,
-                })
-            });
-
-            let { error } = await response.json()
-
-            // if error show error message
-            if (error) {
-                console.error(error)
-                alert("Ooops, something went wrong, try again")
-                return
-            }
+            let { error } = await sendLikeUnlikePost(!liked, postId)
+            if (error) return
+            setLiked((prev) => !prev)
+            setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
         }
 
         sendRequest()
-
-        setLiked((prev) => !prev)
-        setLikedCount((prev) => liked ? prev - 1 : prev + 1)     // if originalled liked, now it to unlike
     }
 
     const routingClick = (e) => {
