@@ -215,6 +215,14 @@ export async function fetchUserProfile(targetUsername) {
     profile.threads.forEach(t => t.isLiked = postLiked.has(t.id))
     profile.replies.forEach(({ Post }) => Post.isLiked = postLiked.has(Post.id))
 
+    // for this user's multiple replies to a thread, filter to leave only unique
+    let replyToSameThread = new Set()
+    profile.replies = profile.replies.filter(({ Post }) => {
+        if(replyToSameThread.has(Post.id)) return false
+        replyToSameThread.add(Post.id)
+        return true
+    })
+
     return { profile, postLiked, error }
 }
 
