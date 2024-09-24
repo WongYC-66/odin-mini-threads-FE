@@ -20,6 +20,10 @@ export default function NavBarBottom() {
         setOpenModal(prev => !prev)
     }
 
+    const displayPurposeOnly = () => {
+        alert('for display purpose only')
+    }
+
     return (
         <div className="fixed bottom-0 flex gap-6 justify-center w-screen bg-white py-4 min-h-[110px] z-10">
 
@@ -41,10 +45,10 @@ export default function NavBarBottom() {
             </div>
 
 
-            <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-                <Link href='/activity'>
+            <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer' onClick={displayPurposeOnly}>
+                {/* <Link href='/activity'> */}
                     <Image alt="heart.png" src="/heart.png" width={40} height={40} />
-                </Link>
+                {/* </Link> */}
             </div>
 
 

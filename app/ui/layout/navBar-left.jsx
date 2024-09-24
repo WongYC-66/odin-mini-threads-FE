@@ -23,6 +23,10 @@ export default function NavBarLeft(props) {
         setOpenModal(prev => !prev)
     }
 
+    const displayPurposeOnly = () => {
+        alert('for display purpose only')
+    }
+
     return (
         <nav className="hidden md:flex flex-col justify-between fixed min-h-screen px-2 py-4 me-16">
             <div className='flex justify-center'>
@@ -48,16 +52,15 @@ export default function NavBarLeft(props) {
                 </div>
 
 
-                {/* add overlay to add new post */}
                 <div className='bg-slate-200 px-4 py-3 rounded-2xl hover:bg-slate-300 hover:cursor-pointer' onClick={handleAddNew}>
                     <Image alt="plus.png" src="/plus.png" width={40} height={40} />
                 </div>
 
 
-                <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-                    <Link href='/activity'>
+                <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer' onClick={displayPurposeOnly}>
+                    {/* <Link href='/activity'> */}
                         <Image alt="heart.png" src="/heart.png" width={40} height={40} />
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
 

@@ -30,6 +30,9 @@ export default function SettingMenuBar(props) {
         // window.location.reload()
     }
 
+    const displayPurposeOnly = () => {
+        alert('for display purpose only')
+    }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -37,13 +40,13 @@ export default function SettingMenuBar(props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                <DropdownMenuItem>Apperance</DropdownMenuItem>
-                <DropdownMenuItem>Insight</DropdownMenuItem>
-                <DropdownMenuItem >Settings</DropdownMenuItem>
+                <DropdownMenuItem onClick={displayPurposeOnly}>Apperance</DropdownMenuItem>
+                <DropdownMenuItem onClick={displayPurposeOnly}>Insight</DropdownMenuItem>
+                <DropdownMenuItem onClick={displayPurposeOnly}>Settings</DropdownMenuItem>
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem>Report a problem</DropdownMenuItem>
+                <DropdownMenuItem onClick={displayPurposeOnly}> Report a problem</DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
