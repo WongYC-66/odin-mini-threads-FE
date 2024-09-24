@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from "react"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -15,7 +14,8 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 
-import API_URL from '@/app/lib/apiUrl.js'
+import { createNewComment } from "@/app/lib/fetchAPI"
+import { readLocalStorage } from "@/app/lib/utils"
 
 export default function ModalNewComment(props) {
 
@@ -25,51 +25,19 @@ export default function ModalNewComment(props) {
   const postAuthorName = props.postAuthorName
   const setIsLoading = props.setIsLoading
 
-  const [username, setUsername] = useState('')
-  const [photoURL, setPhotoURL] = useState('/user2.png')
-
-  useEffect(() => {
-    const { username, photoURL } = JSON.parse(localStorage.getItem('user'))
-    setUsername(username)
-    setPhotoURL(photoURL || '/user2.png')
-  }, [])
+  const {username, photoURL} = readLocalStorage()
 
   const handleNewCommentSubmit = async (e) => {
     e.preventDefault()
 
     const sendRequest = async () => {
-      const data = JSON.parse(localStorage.getItem('user'))
-      const { token } = data
-      const formData = new FormData(e.target);
-      const objectData = Object.fromEntries(formData.entries());
-      objectData.postId = postId
-
-      const response = await fetch(`${API_URL}/comments/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Attach the Bearer token
-        },
-        body: JSON.stringify(objectData),
-      });
-
-      let { error } = await response.json()
-
-      // if error show error message
-      if (error) {
-        console.error(error)
-        alert("Ooops, something went wrong, try again")
-        return
-      }
-      // passed, do something..
-      if (setIsLoading)
-        setIsLoading(true)
+      const { error } = await createNewComment(e, postId)
+      setIsLoading(true)
+      if (!error)
+        console.log("commented!!")
     }
-
     sendRequest()
-
     setOpen(false)
-    console.log("commented!!")
   }
 
   return (

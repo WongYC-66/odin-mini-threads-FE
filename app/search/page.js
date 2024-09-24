@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useState, useEffect, useRef, Suspense } from 'react'
-
 import Image from "next/image"
 
 import Card from "../ui/search/card.jsx";
-import API_URL from '../lib/apiUrl.js'
 import CardSkeleton from '../ui/search/card-skeleton.jsx';
+
+import { getAllUsers } from '../lib/fetchAPI.js';
+import { filterUser, readLocalStorage } from '../lib/utils.js';
 
 export default function SearchPage() {
 
@@ -18,58 +19,20 @@ export default function SearchPage() {
 
     useEffect(() => {
         // fetch all Profiles
-        const data = JSON.parse(localStorage.getItem('user'))
-        if (!data) return
-        const { token } = data
-
-        const fetchProfiles = async () => {
-            const response = await fetch(`${API_URL}/profiles/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Attach the Bearer token
-                },
-            });
-
-            let { profiles, myFollowings, error } = await response.json()
-
-            // if error show error message
-            if (error || !profiles) {
-                console.error(error)
-                return
+        const sendRequest = async () => {
+            const { profiles, error } = await getAllUsers()
+            if (!error) {
+                setIsLoading(false)
+                setAllProfiles(profiles)
             }
-            // passed
-            // await (new Promise((res) => setTimeout(() => res(), 5000)))
-            myFollowings = new Set(myFollowings)
-
-            profiles = profiles.map(profile => {
-                profile.isFollowing = myFollowings.has(profile.user.username)       // add attribute isFollowing 
-                return profile
-            })
-
-            setAllProfiles(profiles)
-            setIsLoading(false)
         }
-
-        fetchProfiles()
+        sendRequest()
     }, [])
 
     useEffect(() => {
         // Filter profile by query
-        const data = JSON.parse(localStorage.getItem('user'))
-        if (!data) return
-        const { username: mySelfUsername } = data
-
-        const q = query.toLowerCase()
-        const filtered = allProfiles
-            .filter(({ user }) => user.username !== mySelfUsername)     // not self
-            .filter(({ firstName, lastName, user }) => {
-                return firstName.toLowerCase().includes(q) ||
-                    lastName.toLowerCase().includes(q) ||
-                    user.username.toLowerCase().includes(q)
-            })
-
-
-        setFilteredProfiles(filtered)
+        const filteredProfiles = filterUser(query, allProfiles)
+        setFilteredProfiles(filteredProfiles)
     }, [query, allProfiles])
 
     const handleInputChange = (e) => {

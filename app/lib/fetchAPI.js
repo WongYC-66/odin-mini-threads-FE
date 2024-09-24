@@ -63,5 +63,58 @@ export async function sendLikeUnlikePost(tolike, postId) {
         alert("Ooops, something went wrong, try again")
     }
 
-    return {error}
+    return { error }
+}
+
+export async function createNewComment(e, postId) {
+
+    const formData = new FormData(e.target);
+    const objectData = Object.fromEntries(formData.entries());
+    objectData.postId = postId
+
+    const response = await fetch(`${API_URL}/comments/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+        body: JSON.stringify(objectData),
+    });
+
+    let { error } = await response.json()
+
+    // if error show error message
+    if (error) {
+        console.error(error)
+        alert("Ooops, something went wrong, try again")
+    }
+
+    // passed, do something..
+    return { error }
+}
+
+export async function getAllUsers() {
+
+    const response = await fetch(`${API_URL}/profiles/`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Attach the Bearer token
+        },
+    });
+
+    let { profiles, myFollowings, error } = await response.json()
+
+    // if error show error message
+    if (error || !profiles) {
+        console.error("failed to fetch all users.", error)
+    }
+    // passed
+    myFollowings = new Set(myFollowings)
+
+    profiles = profiles.map(profile => {
+        profile.isFollowing = myFollowings.has(profile.user.username)       // add attribute isFollowing 
+        return profile
+    })
+
+    return { profiles, error }
 }
