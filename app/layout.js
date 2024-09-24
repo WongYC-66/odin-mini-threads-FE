@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic'
 import localFont from "next/font/local";
 import "./globals.css";
 

@@ -6,6 +6,9 @@ export function cn(...inputs) {
 }
 
 export function readLocalStorage() {
+  // if (typeof window == 'undefined') {
+  //   return { id: null, username: null, token: null, photoURL: null }
+  // }
   const data = JSON.parse(localStorage.getItem('user'))
   if (!data) return { error: 'Error, local data not found' }
   const { id, username, token, photoURL } = data
