@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import styles from './signIn.module.css';
 import API_URL from '../lib/apiUrl.js'
 import { guestLogin } from '@/app/lib/guest.js'
+import { appendFrontEndDomain } from '../lib/utils';
 
 export default function SignInPage() {
 
@@ -72,6 +73,7 @@ export default function SignInPage() {
         if(!data) return
         router.push('/');
     }, [router])
+    
 
     return (
         <div className={`flex flex-col justify-center items-center h-full w-full ${styles.background}`}>
@@ -91,7 +93,7 @@ export default function SignInPage() {
                 <Button type="button" className="w-[200px]">Sign Up here</Button>
             </Link>
 
-            <a href={`${API_URL}/users/auth/github`}>
+            <a href={`${API_URL}/users/auth/github?${appendFrontEndDomain()}`}>
                 <Button type="button" className="my-4 w-[200px] bg-white text-black">
                     <Image alt='github-logo' src='/github.png' width={24} height={24} />
                     <p className='ms-3'>Github Login </p>

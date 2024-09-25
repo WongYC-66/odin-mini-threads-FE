@@ -64,13 +64,18 @@ export async function fetchDynamicParams(endpoint) {
     cache: 'no-store'
   });
 
-  let { data,error } = await response.json()
+  let { data, error } = await response.json()
 
-  if (!data || error){
+  if (!data || error) {
     console.error(`error. GET ${endpoint}`, error)
     return { error }
   }
 
   console.log(data)
   return { data }
+}
+
+export function appendFrontEndDomain() {
+  const FRONT_END_DOMAIN = window.location.origin;
+  return encodeURIComponent(FRONT_END_DOMAIN)
 }
