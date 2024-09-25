@@ -71,8 +71,8 @@ export default function Post(props) {
                 <div className='min-h-4'>{content}</div>
 
                 {/* post's image */}
-                {images.length && <div className='my-3 flex justify-center w-[300px] h-[300px]'>
-                    <Image alt='image' src={images[0].imgURL} className='object-cover' height={300} width={300}/>
+                {images && images.length && <div className='my-3 flex justify-center w-[300px] h-[300px]'>
+                    <Image alt='image' src={images[0].imgURL} className='object-cover' height={300} width={300} />
                 </div>}
 
                 <div className='min-h-4 flex'>
