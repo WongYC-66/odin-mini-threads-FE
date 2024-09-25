@@ -11,7 +11,7 @@ import { sendLikeUnlikePost } from '@/app/lib/fetchAPI';
 
 export default function Thread(props) {
     const router = useRouter()
-    const { id: postId, author, content, _count, timestamp, isLiked } = props.thread
+    const { id: postId, author, content, _count, timestamp, isLiked, images } = props.thread
 
     const [liked, setLiked] = useState(isLiked)
     const [likedCount, setLikedCount] = useState(_count.likedBy)
@@ -69,6 +69,11 @@ export default function Thread(props) {
 
                 {/* post's content */}
                 <div className='min-h-4'>{content}</div>
+
+                {/* post's image */}
+                {images.length && <div className='my-3 flex justify-center w-[300px] h-[300px]'>
+                    <Image alt='image' src={images[0].imgURL} className='object-cover' height={300} width={300} />
+                </div>}
 
                 <div className='min-h-4 flex'>
                     {/* Like Icon and count */}

@@ -61,6 +61,8 @@ export default function ModalNewPost(props) {
     e.preventDefault()
     sendRequest()
     setOpen(false)
+    setShowUpload(false)
+    setUploadPhotoURL('')
   }
 
   return (
