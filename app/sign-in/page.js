@@ -10,13 +10,41 @@ import { Button } from "@/components/ui/button"
 import styles from './signIn.module.css';
 import API_URL from '../lib/apiUrl.js'
 import { guestLogin } from '@/app/lib/guest.js'
-import { appendFrontEndDomain } from '../lib/utils';
+import { generateGitHubAuthURL } from '../lib/utils';
 
 export default function SignInPage() {
 
     const router = useRouter();
 
     const [errorMsg, setErrorMsg] = useState('')
+    const [githubAuthURL, setGithubAuthURL] = useState('')
+
+    useEffect(() => {
+        // dynamic url from hosting domain
+        const url = generateGitHubAuthURL()
+        setGithubAuthURL(url)
+    }, [])
+
+    useEffect(() => {
+        // Check if there is a token in the URL (from GitHub redirect)
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const id = urlParams.get('id');
+        const username = urlParams.get('username');
+        const photoURL = urlParams.get('photoURL');
+
+        if (token && id) {
+            localStorage.setItem("user", JSON.stringify({ id, username, token, photoURL }));
+            router.push('/');
+        }
+    }, [router]);
+
+    useEffect(() => {
+        // Check if user has login in / registed before, if so, goto home
+        const data = localStorage.getItem('user')
+        if (!data) return
+        router.push('/');
+    }, [router])
 
     const handleSignIn = async (e) => {
         e.preventDefault()
@@ -53,27 +81,7 @@ export default function SignInPage() {
         router.push('/');
     }
 
-    useEffect(() => {
-        // Check if there is a token in the URL (from GitHub redirect)
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const id = urlParams.get('id');
-        const username = urlParams.get('username');
-        const photoURL = urlParams.get('photoURL');
 
-        if (token && id) {
-            localStorage.setItem("user", JSON.stringify({ id, username, token, photoURL }));
-            router.push('/');
-        }
-    }, [router]);
-
-    useEffect(() => {
-        // Check if user has login in / registed before, if so, goto home
-        const data = localStorage.getItem('user')
-        if(!data) return
-        router.push('/');
-    }, [router])
-    
 
     return (
         <div className={`flex flex-col justify-center items-center h-full w-full ${styles.background}`}>
@@ -93,7 +101,7 @@ export default function SignInPage() {
                 <Button type="button" className="w-[200px]">Sign Up here</Button>
             </Link>
 
-            <a href={`${API_URL}/users/auth/github?${appendFrontEndDomain()}`}>
+            <a href={githubAuthURL}>
                 <Button type="button" className="my-4 w-[200px] bg-white text-black">
                     <Image alt='github-logo' src='/github.png' width={24} height={24} />
                     <p className='ms-3'>Github Login </p>

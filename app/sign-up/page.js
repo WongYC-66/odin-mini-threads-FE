@@ -10,15 +10,21 @@ import { Button } from "@/components/ui/button"
 import styles from '../sign-in/signIn.module.css';
 import API_URL from '../lib/apiUrl.js'
 import { guestLogin } from '@/app/lib/guest.js'
-import { appendFrontEndDomain } from '../lib/utils';
-
+import { generateGitHubAuthURL } from '../lib/utils';
 
 export default function SignUpPage() {
 
     const router = useRouter();
 
     const [errorMsg, setErrorMsg] = useState('')
+    const [githubAuthURL, setGithubAuthURL] = useState('')
 
+    useEffect(() => {
+        // dynamic url from hosting domain
+        const url = generateGitHubAuthURL()
+        setGithubAuthURL(url)
+    }, [])
+    
     useEffect(() => {
         // Check if user has login in / registed before, if so, goto home
         const data = localStorage.getItem('user')
@@ -81,7 +87,7 @@ export default function SignUpPage() {
                 <Button type="button" className="w-[200px]">Sign in here</Button>
             </Link>
 
-            <a href={`${API_URL}/users/auth/github?${appendFrontEndDomain()}`}>
+            <a href={githubAuthURL}>
                 <Button type="button" className="my-4 w-[200px] bg-white text-black">
                     <Image alt='github-logo' src='/github.png' width={24} height={24} />
                     <p className='ms-3'>Github Login </p>

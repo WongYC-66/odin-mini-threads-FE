@@ -75,8 +75,8 @@ export async function fetchDynamicParams(endpoint) {
   return { data }
 }
 
-export function appendFrontEndDomain() {
+export function generateGitHubAuthURL() {
   if(typeof window == 'undefined') return ""
   const FRONT_END_DOMAIN = window.location.origin;
-  return encodeURIComponent(FRONT_END_DOMAIN)
+  return `${API_URL}/users/auth/github?frontendUrl=${encodeURIComponent(FRONT_END_DOMAIN)}`
 }
