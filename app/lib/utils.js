@@ -1,5 +1,7 @@
 import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import API_URL from "./apiUrl"
+import 'dotenv/config'
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -46,5 +48,29 @@ export function updateLocalStorage(payload) {
   localStorage.setItem('user', JSON.stringify(updated))
 }
 
+export async function fetchDynamicParams(endpoint) {
+  // return [ { username, id }], or [{username}]
+  console.log(process.env.NEXT_USER)
+  console.log(process.env.NEXT_PASSWORD)
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: process.env.NEXT_USER,
+      password: process.env.NEXT_PASSWORD,
+    }),
+    cache: 'no-store'
+  });
 
+  let { data,error } = await response.json()
 
+  if (!data || error){
+    console.error(`error. GET ${endpoint}`, error)
+    return { error }
+  }
+
+  console.log(data)
+  return { data }
+}

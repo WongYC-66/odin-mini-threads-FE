@@ -1,3 +1,5 @@
+'use client'
+
 import API_URL from '@/app/lib/apiUrl'
 
 export async function guestLogin() {
@@ -29,5 +31,6 @@ export async function guestLogin() {
         photoURL,
     }))
 
-    window.location.replace("/");
+    if (typeof window != 'undefined')
+        window.location.replace("/");
 }
