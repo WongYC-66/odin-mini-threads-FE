@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { createNewPost } from "@/app/lib/fetchAPI"
+import { createNewPost, uploadPhotoAndGetURL } from "@/app/lib/fetchAPI"
 
 export default function ModalNewPost(props) {
 
@@ -25,6 +25,9 @@ export default function ModalNewPost(props) {
   const [username, setUsername] = useState('')
   const [photoURL, setPhotoURL] = useState('/user2.png')
 
+  const [showUpload, setShowUpload] = useState(false)
+  const [uploadPhotoURL, setUploadPhotoURL] = useState('')
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('user'))
     if (!data) return
@@ -32,6 +35,18 @@ export default function ModalNewPost(props) {
     setUsername(username)
     setPhotoURL(photoURL || '/user2.png')
   }, [])
+
+  const handleFileUpload = async (e) => {
+    const sendRequest = async () => {
+      const file = e.target.files[0]
+      if (!file) return
+      const { photoURL, error } = await uploadPhotoAndGetURL(file)
+      if (error) return
+      setUploadPhotoURL(photoURL)
+      setShowUpload(true)
+    }
+    sendRequest()
+  }
 
   const handleNewPostSubmit = async (e) => {
     const sendRequest = async () => {
@@ -79,12 +94,27 @@ export default function ModalNewPost(props) {
             {/* post's content */}
             <form id="newPost" onSubmit={handleNewPostSubmit}>
               <Textarea placeholder="Type your message here." id="postContent" name="content" required />
+              {/* limit 1 photo per post*/}
+              <input name='imgURL' value={uploadPhotoURL} hidden onChange={() => { }} />  
             </form>
+
+            {/* Photo uploaded */}
+            {showUpload &&
+              <div className="py-3 flex justify-center overflow-hidden min-w-[300px] min-h-[300px]">
+                <Image alt='uploaded-image' className='object-cover' src={uploadPhotoURL} height={300} width={300} />
+              </div>
+            }
 
           </div>
         </div>
 
         <DialogFooter>
+          {/* Icon Upload photo */}
+          <label htmlFor="fileInput" className="h-[45px] block hover:scale-105 hover:cursor-pointer">
+            <Image src='/upload.png' alt='upload_icon' width={45} height={45} />
+          </label>
+          <input id="fileInput" name="avatar" type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e)} />
+
           <Button type="submit" form="newPost">Post</Button>
         </DialogFooter>
 
