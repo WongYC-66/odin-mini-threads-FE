@@ -76,6 +76,7 @@ export async function fetchDynamicParams(endpoint) {
 }
 
 export function appendFrontEndDomain() {
+  if(typeof window == 'undefined') return ""
   const FRONT_END_DOMAIN = window.location.origin;
   return encodeURIComponent(FRONT_END_DOMAIN)
 }
