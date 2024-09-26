@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import ProfileTabs from './tabs.jsx';
 import ModalUpdateProfile from './modal-update-profile.jsx';
 
-import { readLocalStorage } from '@/app/lib/utils';
+import { displayPurposeOnly, readLocalStorage } from '@/app/lib/utils';
 import { sendFollowUnfollowRequest } from '@/app/lib/fetchAPI';
 
 export default function ProfileDetail(props) {
@@ -23,14 +23,6 @@ export default function ProfileDetail(props) {
         let same = id == profile.id
         setIsSelf(same)
     }, [profile.id])
-
-    const toInstagram = () => {
-        alert('to instagram ...')
-    }
-
-    const moreInfoClick = () => {
-        alert('under development ...')
-    }
 
     const handleEditProfileClick = () => {
         setOpen(true)
@@ -69,8 +61,8 @@ export default function ProfileDetail(props) {
                 <div className='flex justify-between'>
                     <p className='text-slate-400'>{`${profile._count.followedBy} followers`}</p>
                     <div className='flex justify-center items-center gap-4 '>
-                        <Image src='/instagram.png' alt='to instagram' width={25} height={25} onClick={toInstagram} />
-                        <Image src='/more-info.png' alt='more info' width={25} height={25} onClick={moreInfoClick} />
+                        <Image src='/instagram.png' alt='to instagram' width={25} height={25} onClick={displayPurposeOnly} />
+                        <Image src='/more-info.png' alt='more info' width={25} height={25} onClick={displayPurposeOnly} />
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import ModalNewPost from './modal-create-post.jsx'
 import SettingMenuBar from './setting-menubar.jsx'
-import { readLocalStorage } from '@/app/lib/utils.js';
+import { displayPurposeOnly, readLocalStorage } from '@/app/lib/utils.js';
 
 export default function NavBarLeft(props) {
 
@@ -21,10 +21,6 @@ export default function NavBarLeft(props) {
 
     const handleAddNew = () => {
         setOpenModal(prev => !prev)
-    }
-
-    const displayPurposeOnly = () => {
-        alert('for display purpose only')
     }
 
     return (
@@ -75,7 +71,7 @@ export default function NavBarLeft(props) {
             {/* 2 buttons */}
             <div className="flex flex-col justify-between items-center gap-4 p-1">
                 <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
-                    <Image alt="thumbtack.png" src="/thumbtack.png" width={40} height={40} />
+                    <Image alt="thumbtack.png" src="/thumbtack.png" width={40} height={40} onClick={displayPurposeOnly}/>
                 </div>
                 <div className='px-4 py-3 rounded-2xl hover:bg-slate-200 hover:cursor-pointer'>
                     {/* <Image alt="settings.png" src="/settings.png" width={40} height={40} /> */}

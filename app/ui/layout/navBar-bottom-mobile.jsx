@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import ModalNewPost from './modal-create-post.jsx'
-import { readLocalStorage } from '@/app/lib/utils.js';
+import { displayPurposeOnly, readLocalStorage } from '@/app/lib/utils.js';
 
 export default function NavBarBottom() {
 
@@ -19,11 +19,6 @@ export default function NavBarBottom() {
     const handleAddNew = () => {
         setOpenModal(prev => !prev)
     }
-
-    const displayPurposeOnly = () => {
-        alert('for display purpose only')
-    }
-
     return (
         <div className="fixed bottom-0 flex gap-6 justify-center w-screen bg-white py-4 min-h-[110px] z-10">
 

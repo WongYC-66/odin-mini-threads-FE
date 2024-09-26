@@ -17,6 +17,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { displayPurposeOnly } from "@/app/lib/utils"
 
 export default function SettingMenuBar(props) {
 
@@ -30,9 +31,6 @@ export default function SettingMenuBar(props) {
         // window.location.reload()
     }
 
-    const displayPurposeOnly = () => {
-        alert('for display purpose only')
-    }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
