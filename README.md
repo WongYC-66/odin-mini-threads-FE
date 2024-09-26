@@ -37,6 +37,7 @@ Repo:
 3. Create .env file like .env-sample
 4. Populate fake database by,  npm run resetDB
 5. npm run dev
+6. [optional] npm run test 
 
 ### Installation FE
 1. Clone the fronend repo
