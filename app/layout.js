@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic'
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -25,7 +24,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export default function RootLayout({ children, title }) {
+export default function RootLayout({ children }) {
 
   const router = useRouter();
   const pathName = usePathname();
@@ -47,7 +46,7 @@ export default function RootLayout({ children, title }) {
   return (
     <html lang="en">
 
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}>
 
         {/* Top Bar Section - Logo & Setting (in mobile view)*/}
         <div className="md:hidden">

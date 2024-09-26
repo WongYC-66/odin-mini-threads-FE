@@ -15,9 +15,11 @@ export default function ProfileDetail(props) {
     const fullname = `${profile.userProfile.firstName || ''} ${profile.userProfile.lastName || ''}`
 
     const [followed, setFollowed] = useState(profile.is_followed)
+    const [followCount, setFollowCount] = useState(profile._count.followedBy)
     const [isSelf, setIsSelf] = useState(false)         
     const [open, setOpen] = useState(false)             // update profile modal
 
+    // update UI to edit button if self
     useEffect(() => {
         const { id } = readLocalStorage()
         let same = id == profile.id
@@ -33,6 +35,7 @@ export default function ProfileDetail(props) {
             let { error } = await sendFollowUnfollowRequest(!followed, profile.id)
             if (error) return
             setFollowed((prev) => !prev)
+            setFollowCount(prev => followed ? prev - 1 : prev + 1)
         }
         sendRequest()
     }
@@ -59,7 +62,7 @@ export default function ProfileDetail(props) {
 
                 {/* follower count && instagram button */}
                 <div className='flex justify-between'>
-                    <p className='text-slate-400'>{`${profile._count.followedBy} followers`}</p>
+                    <p className='text-slate-400'>{`${followCount} followers`}</p>
                     <div className='flex justify-center items-center gap-4 '>
                         <Image src='/instagram.png' alt='to instagram' width={25} height={25} onClick={displayPurposeOnly} />
                         <Image src='/more-info.png' alt='more info' width={25} height={25} onClick={displayPurposeOnly} />

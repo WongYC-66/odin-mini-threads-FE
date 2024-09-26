@@ -12,12 +12,14 @@ export default function SearchCard(props) {
 
     const { firstName, lastName, photoURL, user, isFollowing } = props.profile
     const [followed, setFollowed] = useState(isFollowing)
+    const [followCount, setFollowCount] = useState(user._count.followedBy)
 
     const handleButtonClick = () => {
         const sendRequest = async () => {
             let { error } = await sendFollowUnfollowRequest(!followed, user.id)
             if (error) return
             setFollowed((prev) => !prev)
+            setFollowCount(prev => followed ? prev - 1 : prev + 1)
         }
         sendRequest()
     }
@@ -36,7 +38,7 @@ export default function SearchCard(props) {
                 <Link href={`/@${user.username}`} className='hover:cursor-pointer'>
                     <div className='ms-3 font-bold hover:underline'>{user.username}</div>
                     <div className='ms-3 text-slate-400'>{`${firstName || ''} ${lastName || ''}`} </div>
-                    <div className='ms-3 text-slate-700'>{`${user._count.followedBy} followers`} </div>
+                    <div className='ms-3 text-slate-700'>{`${followCount} followers`} </div>
                 </Link>
             </div>
 
