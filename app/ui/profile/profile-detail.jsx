@@ -73,7 +73,7 @@ export default function ProfileDetail(props) {
                     ? <Button className='w-full' onClick={handleEditProfileClick}> Edit Profile </Button>
                     : <>
                         <Button className='w-1/2' onClick={handleFollowBtnClick}> {followed ? 'Following' : 'Follow'} </Button>
-                        <Button className='w-1/2'> Mention </Button>
+                        <Button className='w-1/2'onClick={displayPurposeOnly}> Mention </Button>
                     </>}
             </div>
 
