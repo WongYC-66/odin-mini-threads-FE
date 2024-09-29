@@ -19,11 +19,17 @@ export default function SignInPage() {
     const [errorMsg, setErrorMsg] = useState('')
     const [githubAuthURL, setGithubAuthURL] = useState('')
 
+    const [showAlert, setShowAlert] = useState(true)
+
+
     useEffect(() => {
         // dynamic url from hosting domain
         const url = generateGitHubAuthURL()
         setGithubAuthURL(url)
-    }, [])
+        if (showAlert)
+            alert('If the page is not loading, please wait 1 minute for the backend server to turn active from sleeping')
+        setShowAlert(false)
+    }, [showAlert])
 
     useEffect(() => {
         // Check if there is a token in the URL (from GitHub redirect)
