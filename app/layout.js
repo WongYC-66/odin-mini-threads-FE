@@ -40,12 +40,14 @@ export default function RootLayout({ children }) {
         setIsLoggedIn(false)
         router.push('/sign-in') // reroute if no login info at localstorage
       }
+
+      // Set page title 
+      document.title = 'Mini Threads'
     }
   }, [router, pathName]);
 
   return (
     <html lang="en">
-
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}>
 
         {/* Top Bar Section - Logo & Setting (in mobile view)*/}
